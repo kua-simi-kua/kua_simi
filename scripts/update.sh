@@ -10,9 +10,13 @@ fi
 
 # Set the URL of the Git repository
 repo_url=$1
+echo $repo_url
+
+# Get the name of the repo from the url
+dirname=${repo_url##*/}
 
 # Set the destination directory where you want to clone the repository
-destination_dir="../repos/"
+destination_dir="../repos/${dirname}"
 
 # Clone the repository
 git clone "$repo_url" "$destination_dir"
