@@ -14,7 +14,10 @@ echo $repo_url
 dirname=${repo_url##*/}
 
 # Set the destination directory where you want to clone the repository
-destination_dir="../repos/${dirname}"
+destination_dir="~/repos/${dirname}"
+
+# Create destination directory if it doesn't exist
+mkdir -p "$destination_dir"
 
 # Clone the repository
 git clone "$repo_url" "$destination_dir"
