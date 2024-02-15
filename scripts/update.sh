@@ -19,10 +19,11 @@ USERNAME="${parts[3]}"
 REPO_NAME="${parts[4]}"
 
 # Set the destination directory where you want to clone the repository
-destination_dir="/repos/${REPO_NAME}"
+destination_dir="../repos/${REPO_NAME}"
 
 # Create destination directory if it doesn't exist
 mkdir -p "$destination_dir"
+echo "Destination Directory: $destination_dir"
 
 # Clone the repository
 git clone "$repo_url" "$destination_dir"
