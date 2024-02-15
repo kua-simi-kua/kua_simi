@@ -1,6 +1,7 @@
 # KUA SIMI
 
 ## Changelog:
+`2024-02-14`: Added merge request into new feature branch. Tweaked update.sh script, functionality is still the same. Added processing.py script, currently able to process the SHA256 hashes of .py/.sh files in the repos clone via update.sh. Lo
 
 `2024-02-08`: Populate the directories. Currently can't push empty directories - there are actually more directories i.e. `repos` to store repositories; `repos_info` to store information about the repos such as file hashes / potential IOCs; `config` to store configurations e.g. json schema for the info we want to store and crontab config
 
