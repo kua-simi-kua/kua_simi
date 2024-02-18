@@ -1,0 +1,30 @@
+{
+    "altdns": {
+        "setup.py": {
+            "hash_timestamp": [
+                "20240219015810",
+                "20240219020936"
+            ],
+            "sha256": [
+                "6c1863ecfb7f2964af171ac9d3ce69248092499f2b3fffed20b3faa62912c703",
+                "6c1863ecfb7f2964af171ac9d3ce69248092499f2b3fffed20b3faa62912c70300000000000000000000000"
+            ]
+        },
+        "__init__.py": {
+            "hash_timestamp": [
+                "20240219015810"
+            ],
+            "sha256": [
+                "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            ]
+        },
+        "__main__.py": {
+            "hash_timestamp": [
+                "20240219015810"
+            ],
+            "sha256": [
+                "df0b90c446a7d954385024006dce102b111df037bc9a062e1f94ac0defc754e6"
+            ]
+        }
+    }
+}

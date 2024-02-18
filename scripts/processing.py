@@ -37,7 +37,7 @@ def get_file_hash():
         if os.path.isdir(repo_path):
             logging.info(f"'{repo_name}' is an onboarded code repository. Processing {repo_name}...\n")
 
-            # Process files of interest and calculate hash
+            # Process files of interest and calculate hash and timestamp generated
             file_hashes = {}
             for root, dirs, files in os.walk(repo_path):
                 for file in files:
@@ -48,10 +48,14 @@ def get_file_hash():
                         with open(file_path, "rb") as f:
                             file_content = f.read()
                             hash_value = hashlib.sha256(file_content).hexdigest()
-
+                        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
                         # Print and store the hash as needed
                         logging.info(f"File: {file_path}, SHA256 Hash: {hash_value}")
-                        file_hashes[file] = hash_value
+
+                        file_hashes[file] = {
+                                            "hash_timestamp" : [timestamp],
+                                            "sha256" : [hash_value]
+                                            }
 
             nested_dict_repo_name[repo_name] = file_hashes
             logging.info(f"Finished processing '{repo_name}'.\n")
