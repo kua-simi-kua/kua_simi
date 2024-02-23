@@ -48,32 +48,45 @@ def save_json(file_path, data):
         json.dump(data, file, indent=4)
 
 def compare_and_append_changes(new_data, old_data):
-    # Loop through first level of new json data
+    # Loop through first level of new json data --- repo
     for new_repo, new_repo_data in new_data.items():
-        # Loop through second level of new json data
+        # Check if the new repos of the new json exist in the old json
+        print(list(old_data.keys()))
+        if new_repo not in list(old_data.keys()):
+            logging.info(f"The repo {new_repo} is not found in the old json: {old_data}")
+            # Add the repo's data to old json if it doesn't exist
+            old_data[new_repo] = new_data[new_repo]
+            logging.info(f"{old_data[new_repo]}")
+            save_json(old_file, old_data)
+            logging.info(f"Old json file updated with {new_repo}")
+            continue
+        # Loop through second level of new json data --- files
         for new_file, new_file_data in new_repo_data.items():
-            new_hash = new_file_data['sha256']
+            new_hash = list(new_file_data.values())[0]
             logging.info(f"New hash: {new_hash}.")
-            new_date = new_file_data['hash_timestamp']
+            new_date = list(new_file_data.keys())[0]
             logging.info(f"New hash timestamp: {new_date}.")
             # Check if the file exists in old_data
             if new_file in old_data[new_repo]:
                 logging.info(f"New file {new_file} exists in old json {old_data[new_repo]}.")
-                old_hashes = old_data[new_repo][new_file]['sha256']
+                old_hashes = list(old_data[new_repo][new_file].values())
                 logging.info(f"Old hash list: {old_hashes}")
                 # Check if the new hash is not in old hashes
-                if new_hash[0] not in old_hashes:
+                if new_hash not in old_hashes:
                     logging.info(f"New hash {new_hash} not in {old_hashes}")
                     # Append changes to the old data
-                    old_data[new_repo][new_file]['sha256'].extend(new_hash)
-                    old_data[new_repo][new_file]['hash_timestamp'].extend(new_date)
+                    old_data[new_repo][new_file][new_date] = new_hash
                     logging.info(f"Appended {new_hash} into '{new_file}' of '{new_repo}' of {old_data}.")
+                    # Update last_seen timestamp
+                    old_data[new_repo][new_file]['last_seen'] = int(new_date)
                     save_json(old_file, old_data)
                 else:
                     logging.info(f"Hash for '{new_file}' in '{new_repo}' of {old_data} already exists.")
             else:
-                # Add the file to old data if it doesn't exist
-                old_data[new_repo][new_file] = {'sha256': [new_hash], 'hash_timestamp': [new_date]}
+                # Add the file's data to old json if it doesn't exist
+                old_data[new_repo][new_file] = { new_date : new_hash }
+                old_data[new_repo][new_file]['first_seen'] = int(new_date)
+                old_data[new_repo][new_file]['last_seen'] = int(new_date)
                 logging.info(f"Added new file '{new_file}' in '{new_repo}' of '{old_data}'.")
                 save_json(old_file, old_data)
 
@@ -108,4 +121,4 @@ if __name__ == "__main__":
         logging.info("Both files have the same data, deleting older json file.")
     else:
         compare_and_append_changes(new_data, old_data)
-        delete_json_file(new_file)
+        # delete_json_file(new_file)

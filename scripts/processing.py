@@ -13,7 +13,7 @@ log.setLevel(logging.INFO)
 
 # Save file hashes to a JSON file
 def save_to_json(nested_dict_repo_name):
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    timestamp = int(datetime.now().timestamp() * 1000)
     json_file_path = os.path.join("../repos_info/", f"repo_file_hashes_{timestamp}.json")
     with open(json_file_path, 'w') as json_file:
         json.dump(nested_dict_repo_name, json_file, indent=4)
@@ -48,15 +48,17 @@ def get_file_hash():
                         with open(file_path, "rb") as f:
                             file_content = f.read()
                             hash_value = hashlib.sha256(file_content).hexdigest()
-                        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+                        # Calculate epoch time
+                        timestamp = int(datetime.now().timestamp() * 1000)
                         # Print and store the hash as needed
                         logging.info(f"File: {file_path}, SHA256 Hash: {hash_value}")
 
                         file_hashes[file] = {
-                                            "hash_timestamp" : [timestamp],
-                                            "sha256" : [hash_value]
+                                            timestamp :  hash_value
                                             }
-
+                        if  file_hashes[file].get('first_seen') == None and file_hashes[file].get('last_seen') == None:
+                            file_hashes[file]['first_seen'] = timestamp
+                            file_hashes[file]['last_seen'] = timestamp
             nested_dict_repo_name[repo_name] = file_hashes
             logging.info(f"Finished processing '{repo_name}'.\n")
 
