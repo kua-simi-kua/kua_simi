@@ -22,6 +22,27 @@ def enumerate_json_files(directory_path):
             json_files.append(file_path)
     return json_files
 
+
+# Directory containing cloned repositories
+repo_directory = "../repos/"
+
+def find_init_py_files(repo_directory):
+    init_py_files = []
+
+    # Loop through each subdirectory (repository) in /repos/
+    for repo_name in os.listdir(repo_directory):
+        repo_path = os.path.join(repo_directory, repo_name)
+        logging.info(f"File directories are: {repo_path}")
+        # Iterate through all files in the directory    
+        for root, dirs, files in os.walk(repo_directory):
+            for file in files:
+                # Check if the file is __init__.py
+                if file == "__init__.py":
+                    init_py_files.append(os.path.join(repo_path, file))
+
+    logging.info(f"Init files  are: {init_py_files}")
+    return init_py_files
+
 def file_age(file1_path, file2_path):    
     pattern = r"\d+"
 
@@ -161,5 +182,6 @@ if __name__ == "__main__":
         # delete_json_file(old_file)
         logging.info("Both files have the same data, deleting older json file.")
     else:
+        find_init_py_files(repo_directory)
         compare_and_append_changes(new_data, old_data)
         # delete_json_file(new_file)
