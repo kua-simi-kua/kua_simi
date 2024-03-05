@@ -53,12 +53,20 @@ def get_file_hash():
                         # Print and store the hash as needed
                         logging.info(f"File: {file_path}, SHA256 Hash: {hash_value}")
 
-                        file_hashes[file] = {
-                                            timestamp :  hash_value
-                                            }
-                        if  file_hashes[file].get('first_seen') == None and file_hashes[file].get('last_seen') == None:
-                            file_hashes[file]['first_seen'] = timestamp
-                            file_hashes[file]['last_seen'] = timestamp
+                        if file not in file_hashes:
+                            file_hashes[file] = []
+                        
+                        file_hashes[file].append({
+                            "sha256": hash_value,
+                            "first_seen": timestamp,
+                            "last_seen": timestamp
+                        })
+                        # file_hashes[file] = {
+                        #                     timestamp :  hash_value
+                        #                     }
+                        # if  file_hashes[file].get('first_seen') == None and file_hashes[file].get('last_seen') == None:
+                        #     file_hashes[file]['first_seen'] = timestamp
+                        #     file_hashes[file]['last_seen'] = timestamp
             nested_dict_repo_name[repo_name] = file_hashes
             logging.info(f"Finished processing '{repo_name}'.\n")
 
