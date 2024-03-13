@@ -1,10 +1,26 @@
 from github import Github
 from argparse import ArgumentParser
 
+import json
+
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
     repo_string = repo_url_token_list[-2] + '/' + repo_url_token_list[-1]
     return repo_string
+
+def obtain_collected_metadata_filename(repo_string):
+    repo_string_token_list = repo_string.split("/")
+    metadata_filename = repo_string_token_list[0] + "___" + repo_string_token_list[1]
+    return metadata_filename
+
+# TODO: save the dictionary into a list of dictionaries / json file 
+def save_to_json(repo_string): # abstract this out into utilities
+    timestamp = int(datetime.now().timestamp() * 1000)
+    filename = obtain_collected_metadata_filename(repo_string)
+    json_file_path = os.path.join("../repos_info/", f"repo_f.json")
+    with open(json_file_path, 'w') as json_file:
+        json.dump(nested_dict_repo_name, json_file, indent=4)
+    logging.info(f"Processing completed! File hashes saved to {json_file_path}.")
 
 def main():
     # starList = repo.get_stargazers_with_dates()
