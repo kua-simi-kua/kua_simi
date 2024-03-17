@@ -2,9 +2,12 @@ from github import Github
 from argparse import ArgumentParser
 from datetime import datetime
 
+from utils import json_helper
+
 import json
 import os
 import logging
+
 
 REPOS_INFO_PATH = "../repos_info/"
 
@@ -17,14 +20,6 @@ def obtain_collected_metadata_filename(repo_string):
     repo_string_token_list = repo_string.split("/")
     metadata_filename = repo_string_token_list[0] + "___" + repo_string_token_list[1]
     return metadata_filename
-
-# Returns None if filename doesn't exist (silent fail)
-def read_json(json_file_path): 
-    repo_data_obj = None
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as json_file:
-            repo_data_obj = json.load(json_file)
-    return repo_data_obj
 
 # returns empty dict if file doesn't exist
 # TODO: abstract this out into utilities
@@ -58,11 +53,11 @@ def main():
 
     argparser = ArgumentParser(description="Pull GitHub metadata of a given repo")
     argparser.add_argument("repo_config_file", help="Config file containing list of target repo URLs")
-
     args = argparser.parse_args()
     g = Github()
 
-    repo_list = read_json(args.repo_config_file)
+    repo_list = json_helper.read_json(args.repo_config_file)
+    print(repo_list)
 
     for target_repo_url in repo_list:
         # parse through target repo url and GET the repo object 
