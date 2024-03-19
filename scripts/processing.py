@@ -11,12 +11,27 @@ log = logging.getLogger()
 # Set threshold of logger to info
 log.setLevel(logging.INFO)
 
+# Function to amend file paths
+def admended_file_paths(nested_dict_repo_name):
+    admended_nested_dict = {}
+    for repo, file_hashes in nested_dict_repo_name.items():
+        admended_file_hashes = {}
+        for file_path, hashes in file_hashes.items():
+            admended_file_path = file_path.replace("../repos", "")
+            admended_file_hashes[admended_file_path] = hashes
+        admended_nested_dict[repo] = admended_file_hashes
+    return admended_nested_dict
+
 # Save file hashes to a JSON file
 def save_to_json(nested_dict_repo_name):
     timestamp = int(datetime.now().timestamp() * 1000)
     json_file_path = os.path.join("../repos_info/", f"repo_file_hashes_{timestamp}.json")
+
+    # Admend file paths before saving to JSON
+    admended_nested_dict_repo_name = admended_file_paths(nested_dict_repo_name)
+
     with open(json_file_path, 'w') as json_file:
-        json.dump(nested_dict_repo_name, json_file, indent=4)
+        json.dump(admended_nested_dict_repo_name, json_file, indent=4)
     logging.info(f"Processing completed! File hashes saved to {json_file_path}.")
 
 # File types of interest
@@ -43,7 +58,7 @@ def get_file_hash():
                 for file in files:
                     if file.endswith(file_types):
                         file_path = os.path.join(root, file)
-
+                        logging.info(f"Processing file: '{file_path}'\n")
                         # Calculate the hash
                         with open(file_path, "rb") as f:
                             file_content = f.read()
@@ -53,20 +68,14 @@ def get_file_hash():
                         # Print and store the hash as needed
                         logging.info(f"File: {file_path}, SHA256 Hash: {hash_value}")
 
-                        if file not in file_hashes:
-                            file_hashes[file] = []
+                        if file_path not in file_hashes:
+                            file_hashes[file_path] = []
                         
-                        file_hashes[file].append({
+                        file_hashes[file_path].append({
                             "sha256": hash_value,
                             "first_seen": timestamp,
                             "last_seen": timestamp
                         })
-                        # file_hashes[file] = {
-                        #                     timestamp :  hash_value
-                        #                     }
-                        # if  file_hashes[file].get('first_seen') == None and file_hashes[file].get('last_seen') == None:
-                        #     file_hashes[file]['first_seen'] = timestamp
-                        #     file_hashes[file]['last_seen'] = timestamp
             nested_dict_repo_name[repo_name] = file_hashes
             logging.info(f"Finished processing '{repo_name}'.\n")
 

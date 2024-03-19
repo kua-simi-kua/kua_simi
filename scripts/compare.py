@@ -26,23 +26,6 @@ def enumerate_json_files(directory_path):
 # Directory containing cloned repositories
 repo_directory = "../repos/"
 
-def find_init_py_files(repo_directory):
-    init_py_files = []
-
-    # Loop through each subdirectory (repository) in /repos/
-    for repo_name in os.listdir(repo_directory):
-        repo_path = os.path.join(repo_directory, repo_name)
-        logging.info(f"File directories are: {repo_path}")
-        # Iterate through all files in the directory    
-        for root, dirs, files in os.walk(repo_directory):
-            for file in files:
-                # Check if the file is __init__.py
-                if file == "__init__.py":
-                    init_py_files.append(os.path.join(repo_path, file))
-
-    logging.info(f"Init files  are: {init_py_files}")
-    return init_py_files
-
 def file_age(file1_path, file2_path):    
     pattern = r"\d+"
 
@@ -122,35 +105,6 @@ def compare_and_append_changes(new_data, old_data):
                     }]
                     logging.info(f"Added new file '{new_file}' in '{new_repo}' to old json.")
                     save_json(old_file, old_data)
-        # # Loop through second level of new json data --- files
-        # for new_file, new_file_data in new_repo_data.items():
-        #     new_hash = list(new_file_data.values())[0]
-        #     logging.info(f"New hash: {new_hash}.")
-        #     new_date = list(new_file_data.keys())[0]
-        #     logging.info(f"New hash timestamp: {new_date}.")
-        #     # Check if the file exists in old_data
-        #     if new_file in old_data[new_repo]:
-        #         logging.info(f"New file {new_file} exists in old json {old_data[new_repo]}.")
-        #         old_hashes = list(old_data[new_repo][new_file].values())
-        #         logging.info(f"Old hash list: {old_hashes}")
-        #         # Check if the new hash is not in old hashes
-        #         if new_hash not in old_hashes:
-        #             logging.info(f"New hash {new_hash} not in {old_hashes}")
-        #             # Append changes to the old data
-        #             old_data[new_repo][new_file][new_date] = new_hash
-        #             logging.info(f"Appended {new_hash} into '{new_file}' of '{new_repo}' of {old_data}.")
-        #             # Update last_seen timestamp
-        #             old_data[new_repo][new_file]['last_seen'] = int(new_date)
-        #             save_json(old_file, old_data)
-        #         else:
-        #             logging.info(f"Hash for '{new_file}' in '{new_repo}' of {old_data} already exists.")
-        #     else:
-        #         # Add the file's data to old json if it doesn't exist
-        #         old_data[new_repo][new_file] = { new_date : new_hash }
-        #         old_data[new_repo][new_file]['first_seen'] = int(new_date)
-        #         old_data[new_repo][new_file]['last_seen'] = int(new_date)
-        #         logging.info(f"Added new file '{new_file}' in '{new_repo}' of '{old_data}'.")
-        #         save_json(old_file, old_data)
 
 def delete_json_file(file_path):
     try:
@@ -182,6 +136,5 @@ if __name__ == "__main__":
         # delete_json_file(old_file)
         logging.info("Both files have the same data, deleting older json file.")
     else:
-        find_init_py_files(repo_directory)
         compare_and_append_changes(new_data, old_data)
         # delete_json_file(new_file)
