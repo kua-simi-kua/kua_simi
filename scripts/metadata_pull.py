@@ -9,7 +9,7 @@ import os
 import logging
 
 
-REPOS_INFO_PATH = "../repos_info/"
+REPOS_INFO_PATH = "../repos_info/metadata/"
 
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
