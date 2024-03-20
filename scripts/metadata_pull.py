@@ -10,6 +10,7 @@ import logging
 
 
 REPOS_INFO_PATH = "../repos_info/metadata/"
+GITHUB_METADATA_JSON_PREFIX = "github_metadata___"
 
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
@@ -25,17 +26,19 @@ def obtain_collected_metadata_filename(repo_string):
 # TODO: abstract this out into utilities
 def read_from_json(repo_string): 
     filename_repo_suffix = obtain_collected_metadata_filename(repo_string)
-    json_file_path = os.path.join(REPOS_INFO_PATH, f"github_metadata___{filename_repo_suffix}.json")
+    json_file_path = os.path.join(REPOS_INFO_PATH, f"{GITHUB_METADATA_JSON_PREFIX}{filename_repo_suffix}.json")
     repo_data_obj = {}
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as json_file:
             repo_data_obj = json.load(json_file)
+    else:
+        print(f"{json_file_path} doesn't exist.")
     return repo_data_obj
 
 # TODO: abstract this out into utilities
 def save_to_json(repo_string, data_obj): 
     filename_repo_suffix = obtain_collected_metadata_filename(repo_string)
-    json_file_path = os.path.join(REPOS_INFO_PATH, f"github_metadata__{filename_repo_suffix}.json")
+    json_file_path = os.path.join(REPOS_INFO_PATH, f"{GITHUB_METADATA_JSON_PREFIX}{filename_repo_suffix}.json")
     with open(json_file_path, 'w') as json_file:
         json.dump(data_obj, json_file, indent=4)
     logging.info(f"Processing completed! File hashes saved to {json_file_path}.")
@@ -57,10 +60,11 @@ def main():
     g = Github()
 
     repo_list = json_helper.read_json(args.repo_config_file)
-    print(repo_list)
+    print("Taking in list of target repos from config file ", args.repo_config_file)
 
     for target_repo_url in repo_list:
         # parse through target repo url and GET the repo object 
+        print(f"Start pulling metadata for {target_repo_url}")
         target_repo_string = get_repo_string_from_url(target_repo_url)
         target_repo = g.get_repo(target_repo_string)
 
@@ -73,7 +77,9 @@ def main():
             "stars_count": target_repo.stargazers_count
         }
         metadata_dict[timestamp] = metadata_at_timestamp_dict
+
         save_to_json(target_repo_string, metadata_dict)
+        print(f"Finish pulling metadata for {target_repo_url}")
 
     
 if __name__ == "__main__":
