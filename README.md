@@ -34,6 +34,7 @@ and then navigate into `repos_info/metadata/` to examine the resulting metadata.
 
 
 ## Changelog:
+(As this gets longer, will shift to a new `.md` file)
 
 `2024-03-20`: `metadata_pull.py` can pull metadata (fork count and star count) from target github repos, and create new json files for these metadata / append these metadata to existing json files. These target github repos are specified in `/config/repos_list.json`.
 
@@ -46,10 +47,15 @@ and then navigate into `repos_info/metadata/` to examine the resulting metadata.
 `2024-01-25`: Current `scripts/update.sh` can clone a repo into a directory under the `repos/` directory. User can simply run the command `bash scripts/update.sh REPO_URL` e.g. `bash scripts/update.sh  https://github.com/projectdiscovery/interactsh`
 
 ## Future work: 
+(As this gets longer, will shift to a new `.md` file or possibly track via Issues)
+
 1. Dangerous to clone a repo into `repos/` - this kua_simi repository will not contain contents of the embedded repository, therefore impossible to push updates to remote repo. Possible solution to clone --> process --> delete
 
 2. Add other files of interest for `processing.py` to process
 
-3. Create new files for 
+3. Pull additional metadata e.g.
+    a. List out contributors of interest for each target repo (seems like not possible through GitHub api, may need to resort to cloned repo)
+    b. Get the top `n` popular files/paths of each target repo 
+    c. Get number of `git clone` and views over the past `n` days for each target repo
 
-3. Abstract out common helper functions into `scripts/utils` e.g. helper functions to read and write from json config files and files containing metadata and hashes
+4. Abstract out common helper functions into `scripts/utils` e.g. helper functions to read and write from json config files and files containing metadata and hashes
