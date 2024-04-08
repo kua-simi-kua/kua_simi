@@ -11,7 +11,7 @@ import os
 import logging
 
 
-REPOS_INFO_PATH = "../repos_info/metadata/"
+REPOS_INFO_PATH = "../repos_info/auth_metadata/"
 GITHUB_METADATA_JSON_PREFIX = "github_metadata___"
 
 def get_repo_string_from_url(repo_url):
@@ -59,7 +59,13 @@ def main():
     argparser = ArgumentParser(description="Pull GitHub metadata of a given repo")
     argparser.add_argument("repo_config_file", help="Config file containing list of target repo URLs")
     args = argparser.parse_args()
-    g = Github()
+
+    # Authentication
+    with open("../config/github_auth_super.pass", "r") as pass_file: # ensure that this file is not committed/pushed
+        auth_token = pass_file.read()
+        auth_token.strip()
+    g = Github(auth_token)
+    print(g.get_rate_limit())
 
     repo_list = json_helper.read_json(args.repo_config_file)
     print("Taking in list of target repos from config file ", args.repo_config_file)
@@ -70,17 +76,22 @@ def main():
         target_repo_string = get_repo_string_from_url(target_repo_url)
         target_repo = g.get_repo(target_repo_string)
 
+        # Test code for obtaining other metadata
+        watchers = target_repo.get_teams()
+        for page in watchers:
+            print(page)
+
         # Collect metadata of the target repo at specified timestamp
         # then append it to the current json file for that target repo
-        metadata_dict = read_from_json(target_repo_string)
-        timestamp = int(datetime.now().timestamp() * 1000)
-        metadata_at_timestamp_dict = {
-            "forks_count": target_repo.forks_count,
-            "stars_count": target_repo.stargazers_count
-        }
-        metadata_dict[timestamp] = metadata_at_timestamp_dict
+        # metadata_dict = read_from_json(target_repo_string)
+        # timestamp = int(datetime.now().timestamp() * 1000)
+        # metadata_at_timestamp_dict = {
+        #     "forks_count": target_repo.forks_count,
+        #     "stars_count": target_repo.stargazers_count
+        # }
+        # metadata_dict[timestamp] = metadata_at_timestamp_dict
 
-        save_to_json(target_repo_string, metadata_dict)
+        # save_to_json(target_repo_string, metadata_dict)
         print(f"Finish pulling metadata for {target_repo_url}")
 
     
