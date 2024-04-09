@@ -78,21 +78,21 @@ def main():
 
         watcher_list = []
         for page in target_repo.get_watchers():
-            watcher_list.append(page)
+            watcher_list.append(page.login)
 
         contributor_list = []
         for page in target_repo.get_contributors():
-            contributor_list.append(page)
+            contributor_list.append(page.login)
         contributor_count = len(contributor_list)
 
         open_pull_request_list = []
         for page in target_repo.get_pulls():
-            open_pull_request_list.append(page)
+            open_pull_request_list.append(page.title)
         open_pull_request_count = len(open_pull_request_list)
 
         labels_list = []
         for page in target_repo.get_labels():
-            labels_list.append(page)
+            labels_list.append(page.name)
         labels_count = len(labels_list)
 
 
@@ -115,7 +115,7 @@ def main():
         metadata_dict[timestamp] = metadata_at_timestamp_dict
         print(metadata_at_timestamp_dict)
 
-        # save_to_json(target_repo_string, metadata_dict)
+        save_to_json(target_repo_string, metadata_dict)
         print(f"Finish pulling metadata for {target_repo_url}")
 
     
