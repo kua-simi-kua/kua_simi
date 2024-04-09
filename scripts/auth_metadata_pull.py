@@ -76,20 +76,44 @@ def main():
         target_repo_string = get_repo_string_from_url(target_repo_url)
         target_repo = g.get_repo(target_repo_string)
 
-        # Test code for obtaining other metadata
-        watchers = target_repo.get_teams()
-        for page in watchers:
-            print(page)
+        watcher_list = []
+        for page in target_repo.get_watchers():
+            watcher_list.append(page)
+
+        contributor_list = []
+        for page in target_repo.get_contributors():
+            contributor_list.append(page)
+        contributor_count = len(contributor_list)
+
+        open_pull_request_list = []
+        for page in target_repo.get_pulls():
+            open_pull_request_list.append(page)
+        open_pull_request_count = len(open_pull_request_list)
+
+        labels_list = []
+        for page in target_repo.get_labels():
+            labels_list.append(page)
+        labels_count = len(labels_list)
+
 
         # Collect metadata of the target repo at specified timestamp
         # then append it to the current json file for that target repo
-        # metadata_dict = read_from_json(target_repo_string)
-        # timestamp = int(datetime.now().timestamp() * 1000)
-        # metadata_at_timestamp_dict = {
-        #     "forks_count": target_repo.forks_count,
-        #     "stars_count": target_repo.stargazers_count
-        # }
-        # metadata_dict[timestamp] = metadata_at_timestamp_dict
+        metadata_dict = read_from_json(target_repo_string)
+        timestamp = int(datetime.now().timestamp() * 1000)
+        metadata_at_timestamp_dict = {
+            "forks_count": target_repo.forks_count,
+            "stars_count": target_repo.stargazers_count,
+            "watchers_count": target_repo.watchers_count,
+            "watchers": watcher_list,
+            "contributor_count": contributor_count,
+            "contributors": contributor_list,
+            "open_pull_request_count": open_pull_request_count,
+            "open_pull_requests": open_pull_request_list,
+            "label_count": labels_count,
+            "labels": labels_list
+        }
+        metadata_dict[timestamp] = metadata_at_timestamp_dict
+        print(metadata_at_timestamp_dict)
 
         # save_to_json(target_repo_string, metadata_dict)
         print(f"Finish pulling metadata for {target_repo_url}")
