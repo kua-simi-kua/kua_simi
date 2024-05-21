@@ -6,14 +6,51 @@ from datetime import datetime
 
 from utils import json_helper
 
-import json
-import os
-import logging
+class UserWrapper:
+    """
+    A simple wrapper around the raw user object retrieved from GitHub.
+    """
+    def __init__(self, user_obj):
+        self.user_obj = user_obj
+        self.watched = self.query_watched()
+        self.starred = self.query_starred()
+        self.repos = self.query_repos()
+    
+    def query_watched(self):
+        watched_list = []
+        for page in self.user_obj.get_watched():
+            watched_list.append(page.full_name)
+        return watched_list
+    
+    def query_starred(self):
+        starred_list = []
+        for page in self.user_obj.get_starred():
+            starred_list.append(page.full_name)
+        return starred_list
+    
+    def query_repos(self):
+        repos_list = []
+        for page in self.user_obj.get_repos():
+            repos_list.append(page.full_name)
+        return repos_list 
+    
+    def get_watched(self):
+        return self.watched
 
+    def get_watched_count(self): 
+        return len(self.watched)
+    
+    def get_starred(self):
+        return self.starred
 
-REPOS_INFO_PATH = "../repos_info/auth_metadata/"
-GITHUB_METADATA_JSON_PREFIX = "github_metadata___"
+    def get_starred_count(self):
+        return len(self.starred)
 
+    def get_repos(self):
+        return self.repos
+    
+    def get_repos_count(self):
+        return len(self.repos)
 
 
 def main():
@@ -38,28 +75,29 @@ def main():
     most_recent_metadata = repo_metadata_obj[str(most_recent_timestamp)]
 
     watcher_list = most_recent_metadata["watchers"]
-    print("watcher_list: ", watcher_list)
-
     contributor_list = most_recent_metadata["contributors"]
-    print("contributor_list: ", contributor_list)
+    stargazer_list = most_recent_metadata["stargazers"]
 
-    user_list = list(set(watcher_list + contributor_list))
+    user_list = list(set(watcher_list + contributor_list + stargazer_list))
     user_list_dict = {}
-    for user in user_list:
-        print("Getting ", user)
-        user_obj = g.get_user(user)
+    for username in user_list:
+        print(g.get_rate_limit())
+        print("Getting ", username)
+        user_obj = g.get_user(username)
+        user_obj_wrapper = UserWrapper(user_obj)
+
+        watched_list = []
+        for repo_obj in user_obj.get_watched():
+            watched_list.append(repo_obj.full_name)
+
         user_info = {
-            "watched": user_obj.get_watched(),
-            "starred": user_obj.get_starred()
+            "watched": user_obj_wrapper.get_watched,
+            "starred": user_obj_wrapper.get_starred(),
+            "repos": user_obj_wrapper.get_repos()
         }
-        user_list_dict[user] = user_info
+        user_list_dict[username] = user_info
     print("user_list_dict: ", user_list_dict)
-
-    # Not implemented yet
-    # stargazer_list = most_recent_metadata["stargazers"]
-    # print("stargazer_list: ", stargazer_list)
-
-    
+ 
 
 
     
