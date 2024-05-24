@@ -6,6 +6,8 @@ from datetime import datetime
 
 from utils import json_helper
 
+USER_INFO_PATH = "../user_info/user_info.json"
+
 class UserWrapper:
     """
     A simple wrapper around the raw user object retrieved from GitHub.
@@ -79,6 +81,7 @@ def main():
     stargazer_list = most_recent_metadata["stargazers"]
 
     user_list = list(set(watcher_list + contributor_list + stargazer_list))
+    print(len(user_list), "users")
     user_list_dict = {}
     for username in user_list:
         print(g.get_rate_limit())
@@ -91,12 +94,14 @@ def main():
             watched_list.append(repo_obj.full_name)
 
         user_info = {
-            "watched": user_obj_wrapper.get_watched,
+            "watched": user_obj_wrapper.get_watched(),
             "starred": user_obj_wrapper.get_starred(),
             "repos": user_obj_wrapper.get_repos()
         }
         user_list_dict[username] = user_info
-    print("user_list_dict: ", user_list_dict)
+    
+    json_helper.save_json(USER_INFO_PATH, user_list_dict)
+    # print("user_list_dict: ", user_list_dict)
  
 
 
