@@ -17,6 +17,7 @@ GITHUB_METADATA_JSON_PREFIX = "github_metadata___"
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
     repo_string = repo_url_token_list[-2] + '/' + repo_url_token_list[-1]
+    print(repo_string)
     return repo_string
 
 def obtain_collected_metadata_filepath(repo_string):
@@ -70,6 +71,29 @@ def main():
             labels_list.append(page.name)
         labels_count = len(labels_list)
 
+        forkers_list = []
+        for page in target_repo.get_forks():
+            forkers_list.append(page.owner.login)
+
+        subscribers_list = []
+        for page in target_repo.get_subscribers():
+            subscribers_list.append(page.login)
+        
+        committers_list = []
+        for page in target_repo.get_commits():
+            committers_list.append(page.author.login)
+        committers_count = len(set(committers_list))
+
+        committers_email_list = []
+        for page in target_repo.get_commits():
+            committers_email_list.append(page.commit.author.email)
+        committers_email_count = len(set(committers_email_list))
+
+        assignees_list = []
+        for page in target_repo.get_assignees():
+            assignees_list.append(page.login)
+        assignees_count = len(assignees_list)
+
         # Prep metadata_filepath to store updated info
         # if metadata_filepath does not exist, creat empty dict to store info
         metadata_filepath = obtain_collected_metadata_filepath(target_repo_string)
@@ -83,6 +107,7 @@ def main():
         timestamp = int(datetime.now().timestamp() * 1000)
         metadata_at_timestamp_dict = {
             "forks_count": target_repo.forks_count,
+            "forkers": forkers_list,
             "stargazers_count": target_repo.stargazers_count,
             "stargazers": stargazer_list,
             "watchers_count": target_repo.watchers_count,
@@ -92,13 +117,21 @@ def main():
             "open_pull_request_count": open_pull_request_count,
             "open_pull_requests": open_pull_request_list,
             "label_count": labels_count,
-            "labels": labels_list
+            "labels": labels_list,
+            "subscribers": subscribers_list,
+            "subscribers_count": target_repo.subscribers_count,
+            "committers": committers_list,
+            "committers_count": committers_count,
+            "committers_emails": committers_email_list,
+            "committers_emails_count": committers_email_count,
+            "assignees": assignees_list,
+            "assignees_count": assignees_count
         }
         metadata_dict[timestamp] = metadata_at_timestamp_dict
         print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
-        print(f"Finish pulling metadata for {target_repo_url}")
+        print(f"\nFinish pulling metadata for {target_repo_url}")
 
     
 if __name__ == "__main__":
