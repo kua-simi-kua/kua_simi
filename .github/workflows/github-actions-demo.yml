@@ -15,8 +15,6 @@ jobs:
           ls ${{ github.workspace }}
       - name: run python
         run: python --version
-      - name: install pygithub
-        run: python pip install PyGithub
       - name: run script
         run: cd /home/runner/work/kua_simi/kua_simi && python scripts/auth_repo_metadata_pull.py config/repos_list_long.json
       - run: echo "🍏 This job's status is ${{ job.status }}."
