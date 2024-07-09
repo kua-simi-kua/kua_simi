@@ -5,9 +5,6 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Run 1
-        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -16,4 +13,10 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: run python
+        run: python --version
+      - name: install pygithub
+        run: python pip install PyGithub
+      - name: run script
+        run: cd /home/runner/work/kua_simi/kua_simi && python scripts/auth_repo_metadata_pull.py config/repos_list_long.json
       - run: echo "🍏 This job's status is ${{ job.status }}."
