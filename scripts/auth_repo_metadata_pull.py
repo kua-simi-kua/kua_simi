@@ -31,11 +31,13 @@ def main():
     argparser.add_argument("repo_config_file", help="Config file containing list of target repo URLs")
     args = argparser.parse_args()
 
+    auth_token = ""
     # Authentication
     with open("../config/github_auth_super.pass", "r") as pass_file: # ensure that this file is not committed/pushed
-        auth_token = pass_file.read()
-        auth_token.strip()
-    g = Github(auth_token)
+        auth_token_raw = pass_file.read()
+        auth_token_raw.strip()
+        auth_token = Auth.Token(auth_token_raw)
+    g = Github(auth=auth_token)
     print(g.get_rate_limit())
 
     repo_list = json_helper.read_json(args.repo_config_file)
@@ -131,7 +133,8 @@ def main():
         print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
-        print(f"\nFinish pulling metadata for {target_repo_url}")
+        print(f"Finish pulling metadata for {target_repo_url}")
+
 
     
 if __name__ == "__main__":
