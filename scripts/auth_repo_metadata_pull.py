@@ -38,14 +38,15 @@ def main():
         auth_token_raw.strip()
         auth_token = Auth.Token(auth_token_raw)
     g = Github(auth=auth_token)
-    print(g.get_rate_limit())
 
     repo_list = json_helper.read_json(args.repo_config_file)
     print("Taking in list of target repos from config file ", args.repo_config_file)
 
     for target_repo_url in repo_list:
+        print(g.get_rate_limit())
         # parse through target repo url and GET the repo object 
-        print(f"Start pulling metadata for {target_repo_url}")
+        timestamp = int(datetime.now().timestamp() * 1000)
+        print(f"Start pulling metadata for {target_repo_url} at {timestamp}")
         target_repo_string = get_repo_string_from_url(target_repo_url)
         target_repo = g.get_repo(target_repo_string)
 
@@ -83,7 +84,7 @@ def main():
         
         committers_list = []
         for page in target_repo.get_commits():
-            committers_list.append(page.author.login)
+            committers_list.append(page.committer.login)
         committers_count = len(set(committers_list))
 
         committers_email_list = []
@@ -103,10 +104,7 @@ def main():
         if not metadata_dict:
             metadata_dict = {}
 
-        # Collect metadata of the target repo at specified timestamp
-        # then append it to the current json file for that target repo
-
-        timestamp = int(datetime.now().timestamp() * 1000)
+        # append metadata to the current json file for that target repo
         metadata_at_timestamp_dict = {
             "forks_count": target_repo.forks_count,
             "forkers": forkers_list,
