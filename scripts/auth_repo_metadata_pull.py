@@ -130,7 +130,7 @@ def main():
             "assignees_count": assignees_count
         }
         metadata_dict[timestamp] = metadata_at_timestamp_dict
-        print(metadata_at_timestamp_dict)
+        # print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
         print(f"Finish pulling metadata for {target_repo_url}")
