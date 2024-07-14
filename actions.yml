@@ -1,0 +1,11 @@
+# action.yml
+name: 'Run Docker Image'
+description: 'Docker test'
+outputs:
+  results: # id of output
+    description: 'results'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  # args:
+  #   - ${{ inputs.who-to-greet }}
