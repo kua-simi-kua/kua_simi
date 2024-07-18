@@ -10,5 +10,5 @@ jobs:
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - name: Run Docker image
-        uses: action/
+        uses: kua_simi/action
       - run: echo "🍏 This job's status is ${{ job.status }}."
