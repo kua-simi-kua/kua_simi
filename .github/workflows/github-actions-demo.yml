@@ -9,4 +9,6 @@ jobs:
         uses: actions/checkout@v4
       - name: List files in the repository
         run: ls ${{ github.workspace }}
+      - name: Run Docker image
+        uses: ./
       - run: echo "🍏 This job's status is ${{ job.status }}."
