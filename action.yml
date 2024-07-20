@@ -7,5 +7,5 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  # args:
-  #   - ${{ inputs.who-to-greet }}
+  args:
+    - python3 ./scripts/auth_repo_metadata_pull.py ./config/repos_list_1.json -t ${{ github.token }}
