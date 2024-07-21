@@ -10,6 +10,6 @@ runs:
   args:
     - 'python3' 
     - './scripts/auth_repo_metadata_pull.py' 
-    - './config/repos_list_1.json' 
+    - './config/repos_list_dir/repos_list_1.json' 
     - '-t' 
     - '$GH_TOKEN'
