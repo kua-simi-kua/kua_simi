@@ -17,6 +17,7 @@ jobs:
         run: |
           git config --global user.name 'yueyeah'
           git config --global user.email 'E0273881@u.nus.edu'
+          git add ./repos_info/auth_metadata/
           git commit -m "Added metadata for today"
           git push
       - run: echo "🍏 This job's status is ${{ job.status }}."
