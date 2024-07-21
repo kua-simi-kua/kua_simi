@@ -8,4 +8,4 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - python3 ./scripts/auth_repo_metadata_pull.py ./config/repos_list_1.json -t ${{ github.token }}
+    - python3 ./scripts/auth_repo_metadata_pull.py ./config/repos_list_1.json -t ${{ secrets.GITHUB_TOKEN }}
