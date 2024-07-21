@@ -14,10 +14,13 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit and Pushing Updates
-        run: |
-          git config --global user.name 'yueyeah'
-          git config --global user.email 'E0273881@u.nus.edu'
-          git add ./repos_info/auth_metadata/
-          git commit -m "Added metadata for today"
-          git push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Added metadata for today
+        # run: |
+          # git config --global user.name 'yueyeah'
+          # git config --global user.email 'E0273881@u.nus.edu'
+          # git add ./repos_info/auth_metadata/
+          # git commit -m "Added metadata for today"
+          # git push
       - run: echo "🍏 This job's status is ${{ job.status }}."
