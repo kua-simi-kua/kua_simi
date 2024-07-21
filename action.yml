@@ -1,6 +1,10 @@
 # action.yml
 name: 'Run Docker Image'
 description: 'Docker test'
+inputs:
+  token: 
+    description: 'Github Token'
+    required: true
 outputs:
   results: # id of output
     description: 'results'
@@ -12,4 +16,4 @@ runs:
     - './scripts/auth_repo_metadata_pull.py' 
     - './config/repos_list_dir/repos_list_1.json' 
     - '-t' 
-    - '${{ github.token }}'
+    - '${{ inputs.token }}'
