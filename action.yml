@@ -8,4 +8,8 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - python3 ./scripts/auth_repo_metadata_pull.py ./config/repos_list_1.json -t ${{ env.GH_TOKEN }}
+    - 'python3' 
+    - './scripts/auth_repo_metadata_pull.py' 
+    - './config/repos_list_1.json' 
+    - '-t' 
+    - ${{ env.GH_TOKEN }}
