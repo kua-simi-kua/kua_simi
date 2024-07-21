@@ -13,4 +13,6 @@ jobs:
         uses: ./
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: git status
+        run: git status
       - run: echo "🍏 This job's status is ${{ job.status }}."
