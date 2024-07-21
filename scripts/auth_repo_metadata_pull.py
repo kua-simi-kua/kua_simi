@@ -24,19 +24,21 @@ def obtain_collected_metadata_filepath(repo_string):
     repo_string_token_list = repo_string.split("/")
     metadata_filename = repo_string_token_list[0] + "___" + repo_string_token_list[1]
     full_file_path = os.path.join(REPOS_INFO_PATH, f"{GITHUB_METADATA_JSON_PREFIX}{metadata_filename}.json")
-    return full_file_path
+    return full_file_path    
 
 def main():
     argparser = ArgumentParser(description="Pull GitHub metadata of a given repo")
     argparser.add_argument("repo_config_file", help="Config file containing list of target repo URLs")
+    argparser.add_argument("--token", "-t", help="Github token", nargs="?", default=None)
     args = argparser.parse_args()
 
-    auth_token = ""
-    # Authentication
-    with open("../config/github_auth_super.pass", "r") as pass_file: # ensure that this file is not committed/pushed
-        auth_token_raw = pass_file.read()
-        auth_token_raw.strip()
-        auth_token = Auth.Token(auth_token_raw)
+    if args.token:
+        auth_token = Auth.Token(args.token)
+    else:
+        with open("../config/github_auth_super.pass", "r") as pass_file: # ensure that this file is not committed/pushed
+            auth_token_raw = pass_file.read()
+            auth_token_raw.strip()
+            auth_token = Auth.Token(auth_token_raw)
     g = Github(auth=auth_token)
 
     repo_list = json_helper.read_json(args.repo_config_file)
@@ -84,7 +86,12 @@ def main():
         
         committers_list = []
         for page in target_repo.get_commits():
-            committers_list.append(page.committer.login)
+            try:
+                committer_login = page.committer.login
+            except:
+                print(f"Unable to get committer login from {page}")
+            else:
+                committers_list.append(committer_login)
         committers_count = len(set(committers_list))
 
         committers_email_list = []
