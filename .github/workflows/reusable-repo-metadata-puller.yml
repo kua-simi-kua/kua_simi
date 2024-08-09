@@ -1,6 +1,11 @@
 name: Reusable Repo Metadata Puller
 run-name: Pulling Repo Metadata
-on: workflow_call
+on: 
+  workflow_call:
+    inputs: 
+      repos_list_path:
+        required: true
+        type: string
   # schedule:
   #   - cron: "38 1 * * *"
 jobs:
@@ -15,6 +20,7 @@ jobs:
         uses: ./
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          file_path: ${{ inputs.repos_list_path }}
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
