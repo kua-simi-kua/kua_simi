@@ -1,6 +1,6 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: workflow_dispatch
+name: Reusable Repo Metadata Puller
+run-name: Pulling Repo Metadata
+on: workflow_call
   # schedule:
   #   - cron: "38 1 * * *"
 jobs:
