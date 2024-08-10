@@ -19,8 +19,8 @@ jobs:
       - name: Run Docker image
         uses: ./
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           file_path: ${{ inputs.repos_list_path }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
