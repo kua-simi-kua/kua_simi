@@ -1,2 +1,0 @@
-Design Decisions:
-- `2024-07-11`: Used try-except to append to committer list in `auth_repo_metadata_pull.py`, because some committers to repos do not have `login`s, which will cause the script to crash.
