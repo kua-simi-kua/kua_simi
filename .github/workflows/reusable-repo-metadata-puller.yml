@@ -24,8 +24,8 @@ jobs:
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
-          git config --global user.name 'yueyeah'
-          git config --global user.email 'E0273881@u.nus.edu'
+          git config --global user.name 'kua_simi'
+          git config --global user.email 'kua_simi_kua@proton.me'
           git add ./repos_info/auth_metadata/
           git commit -m "Added metadata for today for ${{ inputs.repos_list_path }}"
           git push
