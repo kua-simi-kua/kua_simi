@@ -1,7 +1,9 @@
 [
-    "https://github.com/danti1988/adcshunter",
-    "https://github.com/ELMERIKH/Keres",
-    "https://github.com/emrekybs/nim-shell",
-    "https://github.com/hackerhouse-opensource/WMIProcessWatcher",
-    "https://github.com/hackerhouse-opensource/SignToolEx"
+    "https://github.com/hackerhouse-opensource/SignToolEx",
+    "https://github.com/amjcyber/EDRNoiseMaker",
+    "https://github.com/hackerhouse-opensource/Stinger",
+    "https://github.com/0vercl0k/rp-bf.rs",
+    "https://github.com/blackarrowsec/Handly",
+    "https://github.com/kyleavery/pendulum",
+    "https://github.com/MegaManSec/SSH-Snake"
 ]

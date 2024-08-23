@@ -1,7 +1,9 @@
 [
-    "https://github.com/ZephrFish/ADFSDump-PS",
-    "https://github.com/cybersectroll/TrollUAC",
-    "https://github.com/tjnull/pentest-arsenal",
-    "https://github.com/efeali/fragtunnel",
-    "https://github.com/ANANTANADAPARA/Shigaraki"
+    "https://github.com/zmap/zmap",
+    "https://github.com/projectdiscovery/nuclei",
+    "https://github.com/jm33-m0/emp3r0r",
+    "https://github.com/WangYihang/Platypus",
+    "https://github.com/Leo4j/SessionExec",
+    "https://github.com/Stuub/Helios",
+    "https://github.com/tyranid/DotNetToJScript"
 ]

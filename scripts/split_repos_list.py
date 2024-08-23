@@ -4,7 +4,7 @@ from utils import json_helper
 def main():
     argparser = ArgumentParser(description="Split the long repos_list.json into smaller json")
     argparser.add_argument("long_repo_config_file", help="Config file containing list of target repo URLs")
-    argparser.add_argument("-n", "--num", help="Number of repo urls in each smaller repo_list json files", nargs="?", default=5, const=5)
+    argparser.add_argument("-n", "--num", help="Number of repo urls in each smaller repo_list json files", nargs="?", default=7, const=7)
     args = argparser.parse_args()
 
     long_repo_config_file = args.long_repo_config_file
