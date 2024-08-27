@@ -6,17 +6,16 @@ from datetime import datetime
 import time
 import os
 
-
-from utils import json_helper
+from utils import json_helper, print_and_log_list
 
 
 REPOS_INFO_PATH = "../repos_info/auth_metadata/"
 GITHUB_METADATA_JSON_PREFIX = "github_metadata___"
+LOG_PATH = "../monitoring/auth_repo_metadata_pull_logs/auth_repo_metadata_pull_log_current.json"
 
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
     repo_string = repo_url_token_list[-2] + '/' + repo_url_token_list[-1]
-    print(repo_string)
     return repo_string
 
 def obtain_collected_metadata_filepath(repo_string):
@@ -31,6 +30,9 @@ def main():
     argparser.add_argument("--token", "-t", help="Github token", nargs="?", default=None)
     args = argparser.parse_args()
 
+    log_timestamp = int(datetime.now().timestamp() * 1000)
+    log_msg_lst = [] # list for all msg to be appended to 
+
     if args.token:
         auth_token = Auth.Token(args.token)
     else:
@@ -41,20 +43,20 @@ def main():
     g = Github(auth=auth_token)
 
     repo_list = json_helper.read_json(args.repo_config_file)
-    print("Taking in list of target repos from config file ", args.repo_config_file)
+    print_and_log_list(f"Taking in list of target repos from config file {args.repo_config_file}", log_msg_lst)
 
     for target_repo_url in repo_list:
-        print(g.get_rate_limit())
+        rate_limit_msg = str(g.get_rate_limit())
+        print_and_log_list(rate_limit_msg, log_msg_lst)
         # parse through target repo url and GET the repo object 
-        timestamp = int(datetime.now().timestamp() * 1000)
+        repo_timestamp = int(datetime.now().timestamp() * 1000)
         start_time = time.perf_counter()
-        print(f"Start pulling metadata for {target_repo_url} at {timestamp}")
+        print_and_log_list(f"Start pulling metadata for {target_repo_url} at {repo_timestamp}", log_msg_lst)
         target_repo_string = get_repo_string_from_url(target_repo_url)
         try:
             target_repo = g.get_repo(target_repo_string)
         except Exception as e:
-            error_msg = f"Failed to reach repo due to the following exception \n {e}"
-            print(error_msg)
+            print_and_log_list(f"Failed to reach repo due to the following exception \n {e}", log_msg_lst)
 
         # Prep relevant metadata
         watcher_list = []
@@ -92,8 +94,8 @@ def main():
         for page in target_repo.get_commits():
             try:
                 committer_login = page.committer.login
-            except:
-                print(f"Unable to get committer login from {page}")
+            except Exception as e:
+                print_and_log_list(f"Unable to get committer login from {page} due to error {e}", log_msg_lst)
             else:
                 committers_list.append(committer_login)
         committers_count = len(set(committers_list))
@@ -138,15 +140,20 @@ def main():
             "assignees": assignees_list,
             "assignees_count": assignees_count
         }
-        metadata_dict[timestamp] = metadata_at_timestamp_dict
+        metadata_dict[repo_timestamp] = metadata_at_timestamp_dict
         # print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
-        print(f"Finish pulling metadata for {target_repo_url}")
+        print_and_log_list(f"Finish pulling metadata for {target_repo_url}", log_msg_lst)
         end_time = time.perf_counter()
-        time_elapsed = end_time - start_time
-        print(type(time_elapsed))
-        print(time_elapsed, "s elapsed")
+        time_elapsed = round(end_time - start_time, 2)
+        print_and_log_list(f"{time_elapsed}s elapsed", log_msg_lst)
+
+    log_dict = json_helper.read_json(LOG_PATH)
+    if not log_dict:
+        log_dict = {}
+    log_dict[log_timestamp] = log_msg_lst
+    json_helper.save_json(LOG_PATH, log_dict)
 
 
     
