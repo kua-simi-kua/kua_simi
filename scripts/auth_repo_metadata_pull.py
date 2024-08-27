@@ -3,12 +3,11 @@ from github import Auth
 from github import GithubIntegration
 from argparse import ArgumentParser
 from datetime import datetime
+import time
+import os
+
 
 from utils import json_helper
-
-import json
-import os
-import logging
 
 
 REPOS_INFO_PATH = "../repos_info/auth_metadata/"
@@ -48,6 +47,7 @@ def main():
         print(g.get_rate_limit())
         # parse through target repo url and GET the repo object 
         timestamp = int(datetime.now().timestamp() * 1000)
+        start_time = time.perf_counter()
         print(f"Start pulling metadata for {target_repo_url} at {timestamp}")
         target_repo_string = get_repo_string_from_url(target_repo_url)
         target_repo = g.get_repo(target_repo_string)
@@ -139,6 +139,10 @@ def main():
 
         json_helper.save_json(metadata_filepath, metadata_dict)
         print(f"Finish pulling metadata for {target_repo_url}")
+        end_time = time.perf_counter()
+        time_elapsed = end_time - start_time
+        print(type(time_elapsed))
+        print(time_elapsed, "s elapsed")
 
 
     
