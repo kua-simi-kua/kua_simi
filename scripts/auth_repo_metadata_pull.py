@@ -50,7 +50,11 @@ def main():
         start_time = time.perf_counter()
         print(f"Start pulling metadata for {target_repo_url} at {timestamp}")
         target_repo_string = get_repo_string_from_url(target_repo_url)
-        target_repo = g.get_repo(target_repo_string)
+        try:
+            target_repo = g.get_repo(target_repo_string)
+        except Exception as e:
+            error_msg = f"Failed to reach repo due to the following exception \n {e}"
+            print(error_msg)
 
         # Prep relevant metadata
         watcher_list = []
