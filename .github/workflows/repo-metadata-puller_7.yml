@@ -2,7 +2,7 @@ name: Repo Metadata Puller for repos_list_7
 run-name: Pulling Repo Metadata
 on: 
   schedule:
-    - cron: "28 3 * * *"
+    - cron: "8 23 * * *"
 jobs:
   Run-reusable-metadata-puller:
     uses: ./.github/workflows/reusable-repo-metadata-puller.yml
