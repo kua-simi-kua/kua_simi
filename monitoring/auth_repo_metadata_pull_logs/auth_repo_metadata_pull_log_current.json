@@ -17613,5 +17613,20 @@
         "Start pulling metadata for https://github.com/loseys/BlackMamba at 1728006693747",
         "Finish pulling metadata for https://github.com/loseys/BlackMamba",
         "41.42s elapsed"
+    ],
+    "1728008500448": [
+        "Taking in list of target repos from config file ../config/repos_list_dir/repos_list_9.json",
+        "RateLimit(core=Rate(reset=2024-10-04 02:50:44+00:00, remaining=4804, limit=5000))",
+        "Start pulling metadata for https://github.com/klezVirus/RpcProxyInvoke at 1728008500614",
+        "Finish pulling metadata for https://github.com/klezVirus/RpcProxyInvoke",
+        "7.29s elapsed",
+        "RateLimit(core=Rate(reset=2024-10-04 02:50:44+00:00, remaining=4787, limit=5000))",
+        "Start pulling metadata for https://github.com/badsectorlabs/sccm-http-looter at 1728008508250",
+        "Finish pulling metadata for https://github.com/badsectorlabs/sccm-http-looter",
+        "8.04s elapsed",
+        "RateLimit(core=Rate(reset=2024-10-04 02:50:44+00:00, remaining=4766, limit=5000))",
+        "Start pulling metadata for https://github.com/EvilBytecode/SsnRetrieval at 1728008516651",
+        "Finish pulling metadata for https://github.com/EvilBytecode/SsnRetrieval",
+        "4.24s elapsed"
     ]
 }
