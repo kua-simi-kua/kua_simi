@@ -1,10 +1,10 @@
-name: Repo Metadata Puller for repos_list_9
+name: Repo Metadata Puller for repos_list_10
 run-name: Pulling Repo Metadata
 on: 
   schedule:
-    - cron: "8 1 * * *"
+    - cron: "8 2 * * *"
 jobs:
   Run-reusable-metadata-puller:
     uses: ./.github/workflows/reusable-repo-metadata-puller.yml
     with:
-      repos_list_path: ../config/repos_list_dir/repos_list_9.json
+      repos_list_path: ../config/repos_list_dir/repos_list_10.json
