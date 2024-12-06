@@ -18,18 +18,27 @@ def main():
 
     field_list = args.field
     plot_data_series = pd.Series()
+    plot_data_series_list = []
     for field in field_list:
         field_series = metadata_df.get(field)
+        plot_data_series_list.append(field_series)
         plot_data_series = plot_data_series.add(field_series, fill_value=0)
-    
-    date_x_axis = [datetime.fromtimestamp(float(epoch_timestamp)/1000).strftime("%d/%m/%Y") for epoch_timestamp in plot_data_series.index]
+
+    series_max = plot_data_series.max()
+    series_min = plot_data_series.min()
+    gradient = (series_max - series_min) / plot_data_series.size
+    print(args.metadata_file, gradient)
+    # date_x_axis = [datetime.fromtimestamp(float(epoch_timestamp)/1000).strftime("%d/%m") for epoch_timestamp in plot_data_series.index]
 
     # plotext.scatter(date_x_axis, plot_data_series.values)
     # plotext.show()
 
-    fig, ax = matplt.subplots()
-    ax.scatter(date_x_axis,plot_data_series.values)
-    matplt.show()
+    # fig, ax = matplt.subplots()
+    # # ax.scatter(date_x_axis,plot_data_series.values)
+
+    # for f_series in plot_data_series_list:
+    #     ax.scatter(date_x_axis,f_series.values)
+    # matplt.show()
 
 
 if __name__ == "__main__":
