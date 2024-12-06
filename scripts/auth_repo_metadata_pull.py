@@ -50,9 +50,8 @@ def main():
         rate_limit_msg = str(g.get_rate_limit())
         print_and_log_list(rate_limit_msg, log_msg_lst)
         # parse through target repo url and GET the repo object 
-        repo_timestamp = int(datetime.now().timestamp() * 1000)
         start_time = time.perf_counter()
-        print_and_log_list(f"Start pulling metadata for {target_repo_url} at {repo_timestamp}", log_msg_lst)
+        print_and_log_list(f"Start pulling metadata for {target_repo_url}", log_msg_lst)
         target_repo_string = get_repo_string_from_url(target_repo_url)
         try:
             target_repo = g.get_repo(target_repo_string)
