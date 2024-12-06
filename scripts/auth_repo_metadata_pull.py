@@ -2,7 +2,7 @@ from github import Github
 from github import Auth
 from github import GithubIntegration
 from argparse import ArgumentParser
-from datetime import datetime
+from datetime import datetime, date
 import time
 import os
 
@@ -20,7 +20,8 @@ def get_repo_string_from_url(repo_url):
 
 def obtain_collected_metadata_filepath(repo_string):
     repo_string_token_list = repo_string.split("/")
-    metadata_filename = repo_string_token_list[0] + "___" + repo_string_token_list[1]
+    today_date = date.today().strftime("%Y%m%d")
+    metadata_filename = repo_string_token_list[0] + "___" + repo_string_token_list[1] + "___" + today_date
     full_file_path = os.path.join(REPOS_INFO_PATH, f"{GITHUB_METADATA_JSON_PREFIX}{metadata_filename}.json")
     return full_file_path    
 
@@ -113,12 +114,9 @@ def main():
         # Prep metadata_filepath to store updated info
         # if metadata_filepath does not exist, creat empty dict to store info
         metadata_filepath = obtain_collected_metadata_filepath(target_repo_string)
-        metadata_dict = json_helper.read_json(metadata_filepath)
-        if not metadata_dict:
-            metadata_dict = {}
 
         # append metadata to the current json file for that target repo
-        metadata_at_timestamp_dict = {
+        metadata_dict = {
             "forks_count": target_repo.forks_count,
             "forkers": forkers_list,
             "stargazers_count": target_repo.stargazers_count,
@@ -140,7 +138,6 @@ def main():
             "assignees": assignees_list,
             "assignees_count": assignees_count
         }
-        metadata_dict[repo_timestamp] = metadata_at_timestamp_dict
         # print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
