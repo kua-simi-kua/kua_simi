@@ -10,7 +10,7 @@ from utils import json_helper, print_and_log_list
 
 
 REPOS_INFO_PATH = "../repos_info/auth_metadata/"
-GITHUB_METADATA_JSON_PREFIX = "github_metadata___"
+GITHUB_METADATA_PREFIX = "github_metadata___"
 LOG_PATH = "../monitoring/auth_repo_metadata_pull_logs/auth_repo_metadata_pull_log_current.json"
 
 def get_repo_string_from_url(repo_url):
@@ -20,10 +20,12 @@ def get_repo_string_from_url(repo_url):
 
 def obtain_collected_metadata_filepath(repo_string):
     repo_string_token_list = repo_string.split("/")
+    metadata_string = repo_string_token_list[0] + "___" + repo_string_token_list[1]
+    repos_info_folder_path = REPOS_INFO_PATH + f"{GITHUB_METADATA_PREFIX}{metadata_string}/"
+
     today_date = date.today().strftime("%Y%m%d")
-    repos_info_folder_path = REPOS_INFO_PATH + f"{GITHUB_METADATA_JSON_PREFIX}{metadata_filename}/"
-    metadata_filename = repo_string_token_list[0] + "___" + repo_string_token_list[1] + "___" + today_date
-    full_file_path = os.path.join(repos_info_folder_path, f"{GITHUB_METADATA_JSON_PREFIX}{metadata_filename}.json")
+    metadata_filename = metadata_string + "___" + today_date
+    full_file_path = os.path.join(repos_info_folder_path, f"{GITHUB_METADATA_PREFIX}{metadata_filename}.json")
     return full_file_path    
 
 def main():
