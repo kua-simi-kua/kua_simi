@@ -6,7 +6,7 @@ from datetime import datetime, date
 import time
 import os
 
-from utils import json_helper, print_and_log_list
+from utils import json_helper
 
 
 REPOS_INFO_PATH = "../repos_info/auth_metadata/"
@@ -47,19 +47,19 @@ def main():
     g = Github(auth=auth_token)
 
     repo_list = json_helper.read_json(args.repo_config_file)
-    print_and_log_list(f"Taking in list of target repos from config file {args.repo_config_file}", log_msg_lst)
+    print(f"Taking in list of target repos from config file {args.repo_config_file}")
 
     for target_repo_url in repo_list:
         rate_limit_msg = str(g.get_rate_limit())
-        print_and_log_list(rate_limit_msg, log_msg_lst)
+        print(rate_limit_msg)
         # parse through target repo url and GET the repo object 
         start_time = time.perf_counter()
-        print_and_log_list(f"Start pulling metadata for {target_repo_url}", log_msg_lst)
+        print(f"Start pulling metadata for {target_repo_url}")
         target_repo_string = get_repo_string_from_url(target_repo_url)
         try:
             target_repo = g.get_repo(target_repo_string)
         except Exception as e:
-            print_and_log_list(f"Failed to reach repo due to the following exception \n {e}", log_msg_lst)
+            print(f"Failed to reach repo due to the following exception \n {e}")
 
         # Prep relevant metadata
         watcher_list = []
@@ -98,7 +98,7 @@ def main():
             try:
                 committer_login = page.committer.login
             except Exception as e:
-                print_and_log_list(f"Unable to get committer login from {page} due to error {e}", log_msg_lst)
+                print(f"Unable to get committer login from {page} due to error {e}")
             else:
                 committers_list.append(committer_login)
         committers_count = len(set(committers_list))
@@ -143,16 +143,10 @@ def main():
         # print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
-        print_and_log_list(f"Finish pulling metadata for {target_repo_url}", log_msg_lst)
+        print(f"Finish pulling metadata for {target_repo_url}")
         end_time = time.perf_counter()
         time_elapsed = round(end_time - start_time, 2)
-        print_and_log_list(f"{time_elapsed}s elapsed", log_msg_lst)
-
-    log_dict = json_helper.read_json(LOG_PATH)
-    if not log_dict:
-        log_dict = {}
-    log_dict[log_timestamp] = log_msg_lst
-    json_helper.save_json(LOG_PATH, log_dict)
+        print(f"{time_elapsed}s elapsed")
 
 
     
