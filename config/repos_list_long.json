@@ -76,5 +76,10 @@
     "https://github.com/kgretzky/evilginx2",
     "https://github.com/AnonKryptiQuz/I-Espresso",
     "https://github.com/trustedsec/social-engineer-toolkit",
-    "https://github.com/fortra/impacket"
+    "https://github.com/fortra/impacket",
+    "https://github.com/DataDog/stratus-red-team",
+    "https://github.com/Maldev-Academy/ExecutePeFromPngViaLNK",
+    "https://github.com/xaitax/Chrome-App-Bound-Encryption-Decryption",
+    "https://github.com/0xHossam/KernelCallbackTable-Injection-PoC",
+    "https://github.com/cdxiaodong/Cloud_Unauthorized_Tool"
 ]
