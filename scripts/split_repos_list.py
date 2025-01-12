@@ -8,7 +8,7 @@ def main():
     args = argparser.parse_args()
 
     long_repo_config_file = args.long_repo_config_file
-    num = args.num
+    num = int(args.num)
     print(f"Splitting {long_repo_config_file} into small lists of {num}")
 
     long_repo_list = json_helper.read_json(long_repo_config_file)
