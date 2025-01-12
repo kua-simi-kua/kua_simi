@@ -1,4 +1,4 @@
-name: Repo Metadata Puller for repos_list_10
+name: Repo Metadata Puller for repos_list_11
 run-name: Pulling Repo Metadata
 on: 
   schedule:
@@ -7,4 +7,4 @@ jobs:
   Run-reusable-metadata-puller:
     uses: ./.github/workflows/reusable-repo-metadata-puller.yml
     with:
-      repos_list_path: ../config/repos_list_dir/repos_list_10.json
+      repos_list_path: ../config/repos_list_dir/repos_list_11.json
