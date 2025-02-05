@@ -21,11 +21,11 @@ def get_repo_string_from_url(repo_url):
 def obtain_collected_metadata_filepath(repo_string):
     repo_string_token_list = repo_string.split("/")
     metadata_string = repo_string_token_list[0] + "___" + repo_string_token_list[1]
-    repos_info_folder_path = REPOS_INFO_PATH + f"{GITHUB_METADATA_PREFIX}{metadata_string}/"
+    repos_info_folder_path = REPOS_INFO_PATH + f"{metadata_string}/"
 
     today_date = date.today().strftime("%Y%m%d")
     metadata_filename = metadata_string + "___" + today_date
-    full_file_path = os.path.join(repos_info_folder_path, f"{GITHUB_METADATA_PREFIX}{metadata_filename}.json")
+    full_file_path = os.path.join(repos_info_folder_path, f"{metadata_filename}.json")
     return full_file_path    
 
 def main():
