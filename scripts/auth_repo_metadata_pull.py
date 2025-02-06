@@ -34,9 +34,6 @@ def main():
     argparser.add_argument("--token", "-t", help="Github token", nargs="?", default=None)
     args = argparser.parse_args()
 
-    log_timestamp = int(datetime.now().timestamp() * 1000)
-    log_msg_lst = [] # list for all msg to be appended to 
-
     if args.token:
         auth_token = Auth.Token(args.token)
     else:
