@@ -9,7 +9,7 @@ def read_json(json_file_path):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as json_file:
             repo_data_obj = json.load(json_file)
-    logging.info(f"read_json() completed! Data read from {json_file_path}.")
+    # logging.info(f"read_json() completed! Data read from {json_file_path}.")
     return repo_data_obj
 
 def save_json(json_file_path, data_obj):
@@ -20,4 +20,4 @@ def save_json(json_file_path, data_obj):
         print("creating ",dir_path)
     with open(json_file_path, 'w+') as json_file:
         json.dump(data_obj, json_file, indent=4)
-    logging.info(f"save_json() completed! {data_obj} saved to {json_file_path}.")
+    # logging.info(f"save_json() completed! {data_obj} saved to {json_file_path}.")
