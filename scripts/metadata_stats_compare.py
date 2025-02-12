@@ -16,29 +16,43 @@ REPOS_INFO_STATS_PATH = REPOS_INFO_PATH + "stats/"
 COUNT_KEYS = ["forks_count", "stargazers_count", "watchers_count", "contributor_count", "subscribers_count", "committers_count"]
 
 
-def fill_in_missing_dates(counts_metadata_dict):
-    pass
+def fill_in_missing_dates(counts_metadata_df):
+    index_list = sorted(counts_metadata_df.index.to_list())
+    start_date = index_list[0]
+    end_date = index_list[-1]
+    full_date_range = pd.date_range(start=start_date, end=end_date).to_list()
+    full_date_range = [datetimestamp.strftime("%Y%m%d") for datetimestamp in full_date_range]
+
+    for date_string in full_date_range:
+        if date_string not in index_list:
+            counts_metadata_df.loc[date_string] = [float('nan')] * len(COUNT_KEYS)
+    
+    counts_metadata_df.sort_index(inplace=True)
+    counts_metadata_df.interpolate(method="linear")
+    return counts_metadata_df
 
 # Function to perform statistical analysis of counts
 def stats_log(counts_metadata_dict):
 
     df = pd.DataFrame(counts_metadata_dict).T
-    print(df)
+    # print(df)
 
     summary_stats_df = df.describe()
     variance_df = df.var().to_frame('variance').T
     median_df = df.median().to_frame('median').T
     summary_stats_df = pd.concat([summary_stats_df, variance_df])
     summary_stats_df = pd.concat([summary_stats_df, median_df])
-    pprint(summary_stats_df)
+    # pprint(summary_stats_df)
     summary_stats_dict = summary_stats_df.to_dict('index')
 
+    df = fill_in_missing_dates(df)
+
     rate_of_change_per_day_df = df.diff() / 1.0
-    pprint(rate_of_change_per_day_df)
+    # pprint(rate_of_change_per_day_df)
     rate_of_change_per_day_dict = rate_of_change_per_day_df.to_dict('index')
 
     rate_of_change_per_week_df = df.diff(7) / 7.0
-    pprint(rate_of_change_per_week_df)
+    # pprint(rate_of_change_per_week_df)
     rate_of_change_per_week_dict = rate_of_change_per_week_df.to_dict('index')
 
     return summary_stats_dict, rate_of_change_per_day_dict, rate_of_change_per_week_dict
