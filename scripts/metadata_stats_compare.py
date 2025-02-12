@@ -63,32 +63,40 @@ def main():
     argparser.add_argument("metadata_dir", help="repos_info directory with metadata files")
     args = argparser.parse_args()
 
-    metadata_dir = args.metadata_dir
-    metadata_dir_path = REPOS_INFO_METADATA_PATH + metadata_dir + '/'
-    metadata_files_list = sorted(os.listdir(metadata_dir_path))
+    metadata_dir_list = []
+    if args.metadata_dir == "all":
+        all_metadata_dir_path = REPOS_INFO_METADATA_PATH
+        metadata_dir_list = os.listdir(all_metadata_dir_path)
+    else:
+        metadata_dir_list.append(metadata_dir)
     
-    metadata_json_repo_count_dict = dict()
-    for filename in metadata_files_list:
-        filename_noext = os.path.splitext(filename)[0]
-        filename_date = filename_noext[-8:]
-        filename_fullpath = metadata_dir_path + '/' + filename
-
-        raw_metadata_dict = json_helper.read_json(filename_fullpath)
-        counts_dict = {key:value for key,value in raw_metadata_dict.items() if key in COUNT_KEYS}
+    for metadata_dir in metadata_dir_list:
+        print(f"Getting stats on {metadata_dir}")
+        metadata_dir_path = REPOS_INFO_METADATA_PATH + metadata_dir + '/'
+        metadata_files_list = sorted(os.listdir(metadata_dir_path))
         
-        metadata_json_repo_count_dict[filename_date] = counts_dict
-        
-    summary_stats_dict, rate_of_change_per_day_dict, rate_of_change_per_week_dict = stats_log(metadata_json_repo_count_dict)
-    # pprint(rate_of_change_per_day_dict)
+        metadata_json_repo_count_dict = dict()
+        for filename in metadata_files_list:
+            filename_noext = os.path.splitext(filename)[0]
+            filename_date = filename_noext[-8:]
+            filename_fullpath = metadata_dir_path + '/' + filename
 
-    stats_filename = metadata_dir + '___stats.json'
-    stats_full_path = REPOS_INFO_STATS_PATH + stats_filename
-    stats_dict = {
-        "summary_stats": summary_stats_dict,
-        "rate_of_change_per_day": rate_of_change_per_day_dict,
-        "rate_of_change_per_week": rate_of_change_per_week_dict
-    }
-    json_helper.save_json(stats_full_path, stats_dict)
+            raw_metadata_dict = json_helper.read_json(filename_fullpath)
+            counts_dict = {key:value for key,value in raw_metadata_dict.items() if key in COUNT_KEYS}
+            
+            metadata_json_repo_count_dict[filename_date] = counts_dict
+            
+        summary_stats_dict, rate_of_change_per_day_dict, rate_of_change_per_week_dict = stats_log(metadata_json_repo_count_dict)
+        # pprint(rate_of_change_per_day_dict)
+
+        stats_filename = metadata_dir + '___stats.json'
+        stats_full_path = REPOS_INFO_STATS_PATH + stats_filename
+        stats_dict = {
+            "summary_stats": summary_stats_dict,
+            "rate_of_change_per_day": rate_of_change_per_day_dict,
+            "rate_of_change_per_week": rate_of_change_per_week_dict
+        }
+        json_helper.save_json(stats_full_path, stats_dict)
 
 
 if __name__ == "__main__":
