@@ -68,7 +68,7 @@ def main():
         all_metadata_dir_path = REPOS_INFO_METADATA_PATH
         metadata_dir_list = os.listdir(all_metadata_dir_path)
     else:
-        metadata_dir_list.append(metadata_dir)
+        metadata_dir_list.append(args.metadata_dir)
     
     for metadata_dir in metadata_dir_list:
         print(f"Getting stats on {metadata_dir}")
