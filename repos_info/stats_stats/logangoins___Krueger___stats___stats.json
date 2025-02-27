@@ -1,0 +1,398 @@
+{
+    "summary_stats_roc_per_day": {
+        "count": {
+            "forks_count": 6.0,
+            "stargazers_count": 6.0,
+            "watchers_count": 6.0,
+            "contributor_count": 6.0,
+            "subscribers_count": 6.0,
+            "committers_count": 6.0
+        },
+        "mean": {
+            "forks_count": 0.3333333333333333,
+            "stargazers_count": 0.8333333333333334,
+            "watchers_count": 0.8333333333333334,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "std": {
+            "forks_count": 0.5163977794943223,
+            "stargazers_count": 1.602081978759722,
+            "watchers_count": 1.602081978759722,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "min": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "25%": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "50%": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "75%": {
+            "forks_count": 0.75,
+            "stargazers_count": 0.75,
+            "watchers_count": 0.75,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "max": {
+            "forks_count": 1.0,
+            "stargazers_count": 4.0,
+            "watchers_count": 4.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "variance": {
+            "forks_count": 0.2666666666666667,
+            "stargazers_count": 2.5666666666666664,
+            "watchers_count": 2.5666666666666664,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "median": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        }
+    },
+    "derivative_1_roc_per_day": {
+        "20250206": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250207": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250208": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "20250209": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "20250210": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "20250211": {
+            "forks_count": 1.0,
+            "stargazers_count": 1.0,
+            "watchers_count": 1.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "20250212": {
+            "forks_count": 0.0,
+            "stargazers_count": 3.0,
+            "watchers_count": 3.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        }
+    },
+    "derivative_7_roc_per_day": {
+        "20250206": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250207": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250208": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250209": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250210": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250211": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250212": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        }
+    },
+    "summary_stats_roc_per_week": {
+        "count": {
+            "forks_count": 0.0,
+            "stargazers_count": 0.0,
+            "watchers_count": 0.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "mean": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "std": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "min": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "25%": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "50%": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "75%": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "max": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "variance": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "median": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        }
+    },
+    "derivative_1_roc_per_week": {
+        "20250206": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250207": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250208": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250209": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250210": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250211": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250212": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        }
+    },
+    "derivative_7_roc_per_week": {
+        "20250206": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250207": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250208": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250209": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250210": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250211": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        },
+        "20250212": {
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "watchers_count": NaN,
+            "contributor_count": NaN,
+            "subscribers_count": NaN,
+            "committers_count": NaN
+        }
+    }
+}
