@@ -92,9 +92,9 @@ def main():
         stats_filename = metadata_dir + '___stats.json'
         stats_full_path = REPOS_INFO_STATS_PATH + stats_filename
         stats_dict = {
-            "summary_stats": summary_stats_dict,
-            "rate_of_change_per_day": rate_of_change_per_day_dict,
-            "rate_of_change_per_week": rate_of_change_per_week_dict
+            "ss": summary_stats_dict,
+            "rocd": rate_of_change_per_day_dict,
+            "rocw": rate_of_change_per_week_dict
         }
         json_helper.save_json(stats_full_path, stats_dict)
 

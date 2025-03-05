@@ -59,20 +59,20 @@ def main():
         stats_file_path = REPOS_INFO_STATS_PATH + stats_file + STATS_SUFFIX + JSON_SUFFIX
 
         stats_dict = json_helper.read_json(stats_file_path)
-        rate_of_change_per_day_dict = stats_dict.get("rate_of_change_per_day")
+        rate_of_change_per_day_dict = stats_dict.get("rocd")
         summary_stats_roc_per_day_dict, derivative_1_roc_per_day_dict, derivative_7_roc_per_day_dict = calculate_derivative(rate_of_change_per_day_dict)
-        rate_of_change_per_week_dict = stats_dict.get("rate_of_change_per_week")
+        rate_of_change_per_week_dict = stats_dict.get("rocw")
         summary_stats_roc_per_week_dict, derivative_1_roc_per_week_dict, derivative_7_roc_per_week_dict = calculate_derivative(rate_of_change_per_week_dict)
 
         stats_stats_filename = stats_file + STATS_SUFFIX + STATS_SUFFIX + '.json'
         stats_stats_full_path = REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
-               "summary_stats_roc_per_day": summary_stats_roc_per_day_dict,
-               "derivative_1_roc_per_day": derivative_1_roc_per_day_dict,
-               "derivative_7_roc_per_day": derivative_7_roc_per_day_dict,
-               "summary_stats_roc_per_week": summary_stats_roc_per_week_dict,
-               "derivative_1_roc_per_week": derivative_1_roc_per_week_dict,
-               "derivative_7_roc_per_week": derivative_7_roc_per_week_dict
+               "ssrocd": summary_stats_roc_per_day_dict,
+               "ddrocd": derivative_1_roc_per_day_dict,
+               "dwrocd": derivative_7_roc_per_day_dict,
+               "ssrocw": summary_stats_roc_per_week_dict,
+               "ddrocw": derivative_1_roc_per_week_dict,
+               "dwrocw": derivative_7_roc_per_week_dict
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)
