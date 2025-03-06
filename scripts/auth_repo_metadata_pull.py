@@ -91,6 +91,7 @@ def main():
             subscribers_list.append(page.login)
         
         committers_list = []
+        authors_list = []
         for page in target_repo.get_commits():
             try:
                 committer_login = page.committer.login
@@ -98,7 +99,15 @@ def main():
                 print(f"Unable to get committer login from {page} due to error {e}")
             else:
                 committers_list.append(committer_login)
+            
+            try:
+                author_login = page.author.login
+            except Exception as e:
+                print(f"Unable to get author login from {page} due to error {e}")
+            else:
+                authors_list.append(author_login)
         committers_count = len(set(committers_list))
+        authors_count = len(set(authors_list))
 
         committers_email_list = []
         for page in target_repo.get_commits():
@@ -134,6 +143,8 @@ def main():
             "committers_count": committers_count,
             "committers_emails": committers_email_list,
             "committers_emails_count": committers_email_count,
+            "authors": authors_list,
+            "authors_count": authors_count,
             "assignees": assignees_list,
             "assignees_count": assignees_count
         }
