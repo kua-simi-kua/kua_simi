@@ -1,0 +1,92 @@
+{
+    "ss": {
+        "count": {
+            "committers_count": 1.0,
+            "contributor_count": 1.0,
+            "forks_count": 1.0,
+            "stargazers_count": 1.0,
+            "subscribers_count": 1.0
+        },
+        "mean": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        },
+        "std": {
+            "committers_count": NaN,
+            "contributor_count": NaN,
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "subscribers_count": NaN
+        },
+        "min": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        },
+        "25%": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        },
+        "50%": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        },
+        "75%": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        },
+        "max": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        },
+        "variance": {
+            "committers_count": NaN,
+            "contributor_count": NaN,
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "subscribers_count": NaN
+        },
+        "median": {
+            "committers_count": 3.0,
+            "contributor_count": 4.0,
+            "forks_count": 417.0,
+            "stargazers_count": 2912.0,
+            "subscribers_count": 38.0
+        }
+    },
+    "rocd": {
+        "20250306": {
+            "committers_count": NaN,
+            "contributor_count": NaN,
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "subscribers_count": NaN
+        }
+    },
+    "rocw": {
+        "20250306": {
+            "committers_count": NaN,
+            "contributor_count": NaN,
+            "forks_count": NaN,
+            "stargazers_count": NaN,
+            "subscribers_count": NaN
+        }
+    }
+}
