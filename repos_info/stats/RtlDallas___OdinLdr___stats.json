@@ -1,5 +1,5 @@
 {
-    "summary_stats": {
+    "ss": {
         "count": {
             "forks_count": 48.0,
             "stargazers_count": 48.0,
@@ -81,7 +81,7 @@
             "committers_count": 1.0
         }
     },
-    "rate_of_change_per_day": {
+    "rocd": {
         "20240524": {
             "forks_count": NaN,
             "stargazers_count": NaN,
@@ -859,7 +859,7 @@
             "committers_count": 0.0
         }
     },
-    "rate_of_change_per_week": {
+    "rocw": {
         "20240524": {
             "forks_count": NaN,
             "stargazers_count": NaN,
