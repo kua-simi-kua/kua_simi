@@ -13,7 +13,7 @@ log.setLevel(logging.INFO)
 REPOS_INFO_PATH = "../repos_info/"
 REPOS_INFO_METADATA_PATH = REPOS_INFO_PATH + "auth_metadata/"
 REPOS_INFO_STATS_PATH = REPOS_INFO_PATH + "stats/"
-COUNT_KEYS = ["forks_count", "stargazers_count", "watchers_count", "contributor_count", "subscribers_count", "committers_count"]
+COUNT_KEYS = ["forks_count", "stargazers_count", "contributor_count", "subscribers_count", "committers_count"]
 
 
 def fill_in_missing_dates(counts_metadata_df):
