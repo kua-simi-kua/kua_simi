@@ -47,15 +47,15 @@ def stats_log(counts_metadata_dict):
 
     df = fill_in_missing_dates(df)
 
-    rate_of_change_per_day_df = df.diff() / 1.0
-    # pprint(rate_of_change_per_day_df)
-    rate_of_change_per_day_dict = rate_of_change_per_day_df.to_dict('index')
+    change_per_day_df = df.diff() / 1.0
+    # pprint(change_per_day_df)
+    change_per_day_dict = change_per_day_df.to_dict('index')
 
-    rate_of_change_per_week_df = df.diff(7) / 7.0
-    # pprint(rate_of_change_per_week_df)
-    rate_of_change_per_week_dict = rate_of_change_per_week_df.to_dict('index')
+    change_per_day_over_week_df = df.diff(7) / 7.0
+    # pprint(change_per_day_over_week_df)
+    change_per_day_over_week_dict = change_per_day_over_week_df.to_dict('index')
 
-    return summary_stats_dict, rate_of_change_per_day_dict, rate_of_change_per_week_dict
+    return summary_stats_dict, change_per_day_dict, change_per_day_over_week_dict
 
 
 def main():
@@ -72,6 +72,10 @@ def main():
     
     for metadata_dir in metadata_dir_list:
         print(f"Getting stats on {metadata_dir}")
+
+        stats_filename = metadata_dir + '___stats.json'
+        stats_full_path = REPOS_INFO_STATS_PATH + stats_filename
+
         metadata_dir_path = REPOS_INFO_METADATA_PATH + metadata_dir + '/'
         metadata_files_list = sorted(os.listdir(metadata_dir_path))
         
@@ -86,15 +90,13 @@ def main():
             
             metadata_json_repo_count_dict[filename_date] = counts_dict
             
-        summary_stats_dict, rate_of_change_per_day_dict, rate_of_change_per_week_dict = stats_log(metadata_json_repo_count_dict)
-        # pprint(rate_of_change_per_day_dict)
+        summary_stats_dict, change_per_day_dict, change_per_day_over_week_dict = stats_log(metadata_json_repo_count_dict)
+        # pprint(change_per_day_dict)
 
-        stats_filename = metadata_dir + '___stats.json'
-        stats_full_path = REPOS_INFO_STATS_PATH + stats_filename
         stats_dict = {
             "ss": summary_stats_dict,
-            "rocd": rate_of_change_per_day_dict,
-            "rocw": rate_of_change_per_week_dict
+            "cd_d": change_per_day_dict,
+            "cd_w": change_per_day_over_week_dict
         }
         json_helper.save_json(stats_full_path, stats_dict)
 

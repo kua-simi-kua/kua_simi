@@ -55,24 +55,24 @@ def main():
         stats_file_list.append(args.stats_file)
     
     for stats_file in stats_file_list:
-        print(f"Getting stats on {stats_file}")
+        print(f"Getting stats_stats on {stats_file}")
         stats_file_path = REPOS_INFO_STATS_PATH + stats_file + STATS_SUFFIX + JSON_SUFFIX
 
         stats_dict = json_helper.read_json(stats_file_path)
-        rate_of_change_per_day_dict = stats_dict.get("rocd")
-        summary_stats_roc_per_day_dict, derivative_1_roc_per_day_dict, derivative_7_roc_per_day_dict = calculate_derivative(rate_of_change_per_day_dict)
-        rate_of_change_per_week_dict = stats_dict.get("rocw")
-        summary_stats_roc_per_week_dict, derivative_1_roc_per_week_dict, derivative_7_roc_per_week_dict = calculate_derivative(rate_of_change_per_week_dict)
+        cd_over_day_dict = stats_dict.get("cd_d")
+        summary_stats_cd_over_day_dict, derivative_1_cd_over_day_dict, derivative_7_cd_over_day_dict = calculate_derivative(cd_over_day_dict)
+        cd_over_week_dict = stats_dict.get("cd_w")
+        summary_stats_cd_over_week_dict, derivative_1_cd_over_week_dict, derivative_7_cd_over_week_dict = calculate_derivative(cd_over_week_dict)
 
         stats_stats_filename = stats_file + STATS_SUFFIX + STATS_SUFFIX + '.json'
         stats_stats_full_path = REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
-               "ssrocd": summary_stats_roc_per_day_dict,
-               "ddrocd": derivative_1_roc_per_day_dict,
-               "dwrocd": derivative_7_roc_per_day_dict,
-               "ssrocw": summary_stats_roc_per_week_dict,
-               "ddrocw": derivative_1_roc_per_week_dict,
-               "dwrocw": derivative_7_roc_per_week_dict
+               "ss_cd_d": summary_stats_cd_over_day_dict,
+               "dd_cd_d": derivative_1_cd_over_day_dict,
+               "dw_cd_d": derivative_7_cd_over_day_dict,
+               "ss_cd_w": summary_stats_cd_over_week_dict,
+               "dd_cd_w": derivative_1_cd_over_week_dict,
+               "dw_cd_w": derivative_7_cd_over_week_dict
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)
