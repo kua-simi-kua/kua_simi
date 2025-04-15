@@ -547,6 +547,13 @@
             "contributor_count": 0.0,
             "subscribers_count": 0.0,
             "committers_count": 0.0
+        },
+        "20250415": {
+            "forks_count": 1.0,
+            "stargazers_count": 1.0,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
         }
     },
     "cd_w": {
@@ -1022,6 +1029,13 @@
         "20250414": {
             "forks_count": 0.14285714285714285,
             "stargazers_count": 0.2857142857142857,
+            "contributor_count": 0.0,
+            "subscribers_count": 0.0,
+            "committers_count": 0.0
+        },
+        "20250415": {
+            "forks_count": 0.2857142857142857,
+            "stargazers_count": 0.42857142857142855,
             "contributor_count": 0.0,
             "subscribers_count": 0.0,
             "committers_count": 0.0
