@@ -5,16 +5,15 @@ import os
 import logging
 import pandas as pd
 
+from metadata_stats import REPOS_INFO_PATH, REPOS_INFO_STATS_PATH, STATS_SUFFIX, JSON_SUFFIX
+
 log = logging.getLogger()
 
 # Set threshold of logger to info
 log.setLevel(logging.INFO)
 
-REPOS_INFO_PATH = "../repos_info/"
-REPOS_INFO_STATS_PATH = REPOS_INFO_PATH + "stats/"
 REPOS_INFO_STATS_STATS_PATH = REPOS_INFO_PATH + "stats_stats/"
-STATS_SUFFIX = '___stats'
-JSON_SUFFIX = '.json'
+
 
 
 
