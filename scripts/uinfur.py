@@ -5,16 +5,16 @@ from datetime import datetime, date
 import time
 import os
 
-class RepoProxy:
+# class RepoProxy:
 
-    def __init__(self, github_obj, repo_string):
-        self.repository = github_obj.get_repo(repo_string)
+#     def __init__(self, github_obj, repo_string):
+#         self.repository = github_obj.get_repo(repo_string)
 
-    def get_contributors_list(self):
-        return [contributor for contributor in self.repository.get_contributors()]
+#     def get_contributors_list(self):
+#         return [contributor for contributor in self.repository.get_contributors()]
     
-    def get_stargazers_list(self):
-        return [stargazer for stargazer in self.repository.get_stargazers()]
+#     def get_stargazers_list(self):
+#         return [stargazer for stargazer in self.repository.get_stargazers()]
 
 
 def main():
