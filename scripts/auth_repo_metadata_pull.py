@@ -7,6 +7,17 @@ import time
 import os
 from utils import json_helper, constants
 
+# class RepoProxy:
+
+#     def __init__(self, github_obj, repo_string):
+#         self.repository = github_obj.get_repo(repo_string)
+
+#     def get_contributors_list(self):
+#         return [contributor for contributor in self.repository.get_contributors()]
+    
+#     def get_stargazers_list(self):
+#         return [stargazer for stargazer in self.repository.get_stargazers()]
+
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
     repo_string = repo_url_token_list[-2] + '/' + repo_url_token_list[-1]

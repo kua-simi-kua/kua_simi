@@ -2,6 +2,7 @@ from github import Github
 from github import Auth
 from argparse import ArgumentParser
 from datetime import datetime, date
+from utils import json_helper, constants
 import time
 import os
 
@@ -15,7 +16,6 @@ import os
     
 #     def get_stargazers_list(self):
 #         return [stargazer for stargazer in self.repository.get_stargazers()]
-
 
 def main():
     argparser = ArgumentParser(description="Pull GitHub metadata of a given repo")
@@ -32,8 +32,9 @@ def main():
             auth_token = Auth.Token(auth_token_raw)
     g = Github(auth=auth_token)
 
-    target_repo_proxy = RepoProxy(g, args.repo_string)
-    target_repo_stargazers = target_repo_proxy.get_stargazers_list()
+    repo_filepath = constants.REPOS_INFO_METADATA_PATH + args.repo_string
+    target_repo_dict = json_helper.read_json(repo_filepath)
+    target_repo_stargazers = target_repo_dict.get_stargazers_list()
     count = 0
     for stargazer in target_repo_stargazers:
         count += 1
