@@ -1,4 +1,4 @@
-from utils import json_helper
+from utils import json_helper, constants
 from argparse import ArgumentParser
 from pprint import pprint
 import os
@@ -10,14 +10,6 @@ log = logging.getLogger()
 # Set threshold of logger to info
 log.setLevel(logging.INFO)
 
-REPOS_INFO_PATH = "../repos_info/"
-REPOS_INFO_METADATA_PATH = REPOS_INFO_PATH + "auth_metadata/"
-REPOS_INFO_STATS_PATH = REPOS_INFO_PATH + "stats/"
-STATS_SUFFIX = '___stats'
-JSON_SUFFIX = '.json'
-COUNT_KEYS = ["forks_count", "stargazers_count", "contributor_count", "subscribers_count", "committers_count"]
-
-
 def fill_in_missing_dates(counts_metadata_df):
     index_list = sorted(counts_metadata_df.index.to_list())
     
@@ -28,7 +20,7 @@ def fill_in_missing_dates(counts_metadata_df):
 
     for date_string in full_date_range:
         if date_string not in index_list:
-            counts_metadata_df.loc[date_string] = [float('nan')] * len(COUNT_KEYS)
+            counts_metadata_df.loc[date_string] = [float('nan')] * len(constants.COUNT_KEYS)
     
     counts_metadata_df.sort_index(inplace=True)
     counts_metadata_df.interpolate(method="linear")
@@ -68,7 +60,7 @@ def main():
 
     metadata_dir_list = []
     if args.metadata_dir == "all":
-        all_metadata_dir_path = REPOS_INFO_METADATA_PATH
+        all_metadata_dir_path = constants.REPOS_INFO_METADATA_PATH
         metadata_dir_list = os.listdir(all_metadata_dir_path)
     else:
         metadata_dir_list.append(args.metadata_dir)
@@ -76,11 +68,11 @@ def main():
     for metadata_dir in metadata_dir_list:
         print(f"Getting stats on {metadata_dir}")
 
-        stats_filename = metadata_dir + STATS_SUFFIX + JSON_SUFFIX
-        stats_full_path = REPOS_INFO_STATS_PATH + stats_filename
+        stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
+        stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
         stats_dict = json_helper.read_json(stats_full_path)
 
-        metadata_dir_path = REPOS_INFO_METADATA_PATH + metadata_dir + '/'
+        metadata_dir_path = constants.REPOS_INFO_METADATA_PATH + metadata_dir + '/'
         metadata_files_list = sorted(os.listdir(metadata_dir_path))
         
         metadata_json_repo_count_dict = dict()

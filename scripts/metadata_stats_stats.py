@@ -1,19 +1,14 @@
-from utils import json_helper
+from utils import json_helper, constants
 from argparse import ArgumentParser
 from pprint import pprint
 import os
 import logging
 import pandas as pd
 
-from metadata_stats import REPOS_INFO_PATH, REPOS_INFO_STATS_PATH, STATS_SUFFIX, JSON_SUFFIX
-
 log = logging.getLogger()
 
 # Set threshold of logger to info
 log.setLevel(logging.INFO)
-
-REPOS_INFO_STATS_STATS_PATH = REPOS_INFO_PATH + "stats_stats/"
-
 
 
 
@@ -46,16 +41,16 @@ def main():
 
     stats_file_list = []
     if args.stats_file == "all":
-        all_stats_file_path = REPOS_INFO_STATS_PATH
+        all_stats_file_path = constants.REPOS_INFO_STATS_PATH
         stats_file_list = os.listdir(all_stats_file_path)
-        suffix_len = len(STATS_SUFFIX + JSON_SUFFIX)
+        suffix_len = len(constants.STATS_SUFFIX + constants.JSON_SUFFIX)
         stats_file_list = [stats_file[:-suffix_len] for stats_file in stats_file_list]
     else:
         stats_file_list.append(args.stats_file)
     
     for stats_file in stats_file_list:
         print(f"Getting stats_stats on {stats_file}")
-        stats_file_path = REPOS_INFO_STATS_PATH + stats_file + STATS_SUFFIX + JSON_SUFFIX
+        stats_file_path = constants.REPOS_INFO_STATS_PATH + stats_file + constants.STATS_SUFFIX + constants.JSON_SUFFIX
 
         stats_dict = json_helper.read_json(stats_file_path)
         cd_over_day_dict = stats_dict.get("cd_d")
@@ -63,8 +58,8 @@ def main():
         cd_over_week_dict = stats_dict.get("cd_w")
         summary_stats_cd_over_week_dict, derivative_1_cd_over_week_dict, derivative_7_cd_over_week_dict = calculate_derivative(cd_over_week_dict)
 
-        stats_stats_filename = stats_file + STATS_SUFFIX + STATS_SUFFIX + '.json'
-        stats_stats_full_path = REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
+        stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
+        stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
                "ss_cd_d": summary_stats_cd_over_day_dict,
                "dd_cd_d": derivative_1_cd_over_day_dict,

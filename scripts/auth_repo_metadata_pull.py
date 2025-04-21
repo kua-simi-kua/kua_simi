@@ -5,13 +5,7 @@ from argparse import ArgumentParser
 from datetime import datetime, date
 import time
 import os
-
-from utils import json_helper
-
-
-REPOS_INFO_PATH = "../repos_info/auth_metadata/"
-GITHUB_METADATA_PREFIX = "github_metadata___"
-LOG_PATH = "../monitoring/auth_repo_metadata_pull_logs/auth_repo_metadata_pull_log_current.json"
+from utils import json_helper, constants
 
 def get_repo_string_from_url(repo_url):
     repo_url_token_list = repo_url.split("/")
@@ -21,7 +15,7 @@ def get_repo_string_from_url(repo_url):
 def obtain_collected_metadata_filepath(repo_string):
     repo_string_token_list = repo_string.split("/")
     metadata_string = repo_string_token_list[0] + "___" + repo_string_token_list[1]
-    repos_info_folder_path = REPOS_INFO_PATH + f"{metadata_string}/"
+    repos_info_folder_path = constants.REPOS_INFO_METADATA_PATH + f"{metadata_string}/"
 
     today_date = date.today().strftime("%Y%m%d")
     metadata_filename = metadata_string + "___" + today_date
