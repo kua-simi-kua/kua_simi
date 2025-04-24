@@ -4,8 +4,6 @@ from argparse import ArgumentParser
 from datetime import datetime, date
 from utils import json_helper, constants
 import os
-import requests
-import pprint
 
 
 def main():
@@ -36,10 +34,7 @@ def main():
 
     user_dict = {}
     target_repo_stargazers = target_repo_dict.get("stargazers")
-    count = 0
     for stargazer in target_repo_stargazers:
-        count += 1
-        if count > 10: break
         print(str(g.get_rate_limit()))
         user_obj = g.get_user(stargazer)
         user_key_info = {
@@ -50,16 +45,9 @@ def main():
             "followers": user_obj.followers,
             "following": user_obj.following,
             "public_gists": user_obj.public_gists,
-            "public_repos": user_obj.public_repos,
-            "repos_url": user_obj.repos_url
+            "public_repos": user_obj.public_repos
         }
-        user_dict[user_obj.login] = user_key_info
-
-    for user, user_info in user_dict.items():
-        if user_info["public_repos"] < 10:
-            repos_raw_data = requests.get(user_info["repos_url"])
-            pprint.pprint(repos_raw_data.json())
-        
+        user_dict[user_obj.login] = user_key_info        
 
     
 
