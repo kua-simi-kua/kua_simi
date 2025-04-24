@@ -17,5 +17,5 @@ def save_json(json_file_path, data_obj):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path + "/")
     with open(json_file_path, 'w+') as json_file:
-        json.dump(data_obj, json_file, indent=4)
+        json.dump(data_obj, json_file, separators=(",",":"))
     # logging.info(f"save_json() completed! {data_obj} saved to {json_file_path}.")

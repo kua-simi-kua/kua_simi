@@ -6,7 +6,10 @@ REPOS_INFO_METADATA_PATH = REPOS_INFO_PATH + "auth_metadata/"
 REPOS_INFO_STATS_PATH = REPOS_INFO_PATH + "stats/"
 REPOS_INFO_STATS_STATS_PATH = REPOS_INFO_PATH + "stats_stats/"
 
+USER_INFO_PATH = "../user_info/"
+USER_INFO_PREFIX = "user_info_"
+
 STATS_SUFFIX = '___stats'
 JSON_SUFFIX = '.json'
 COUNT_KEYS = ["forks_count", "stargazers_count", "contributor_count", "subscribers_count", "committers_count"]
-MOST_RELEVANT_KEYS = ["forkers", "stargazers", "contributors", "subscribers", "committers"]
+MOST_RELEVANT_INTERACT_TYPES = ["forkers", "stargazers", "contributors", "subscribers", "committers"]
