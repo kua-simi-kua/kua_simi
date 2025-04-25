@@ -103,15 +103,18 @@ def main():
     user_list = []
     for interact_type in args.interact_type:
         user_list.extend(target_repo_dict[interact_type])
-    user_list = list(set(user_list))    
+    user_list = list(set(user_list))
+    user_total_num = len(user_list)    
     user_info_filepath = constants.USER_INFO_PATH + constants.USER_INFO_PREFIX + "1" + constants.JSON_SUFFIX
 
-    
+    user_counter = 0
     for user in user_list:
+        user_counter += 1
         rate_limit = g.get_rate_limit()
         print(str(rate_limit))
         if not rate_limit.core.remaining:
             print(f"Rate limit is too low. Pls run again later (1 hour from {datetime_helper.get_string_YYYYMMDD_HHMMSS_UTC(datetime.now())})")
+            break
 
         try:
             entry_created_at = datetime_helper.get_string_YYYYMMDD_HHMMSS_UTC(datetime.now())
@@ -124,12 +127,12 @@ def main():
                 old_entry_created_at = user_dict[user]["entry_created_at"]
                 old_entry_updated_at = user_dict[user]["entry_updated_at"]
                 if datetime_helper.is_within_timedelta_hours(entry_updated_at, old_entry_updated_at, 2):
-                    print(f"Not getting {user} since recently updated")
+                    print(f"Not getting user {user_counter} / {user_total_num}: {user} since recently updated")
                     continue
                 else:
                     entry_created_at = old_entry_created_at
             
-            print(f"Getting user {user}")
+            print(f"Getting user {user_counter} / {user_total_num} : {user}")
             user_obj = g.get_user(user)
             uw = UserWrapper(user_obj)
             user_key_info_dict = uw.get_dict_repr()
