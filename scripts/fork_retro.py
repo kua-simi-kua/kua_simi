@@ -4,13 +4,12 @@ from argparse import ArgumentParser
 import os
 import pandas as pd
 
-from utils import json_helper
-from metadata_stats import REPOS_INFO_METADATA_PATH
+from utils import json_helper, datetime_helper, constants
 
 def repos_string_target_forks(repos_info_file):
     repos_info_filename_noext = os.path.splitext(repos_info_file)[0]
     target_repo_string_tokens = repos_info_filename_noext[:-11]
-    repos_info_filepath = REPOS_INFO_METADATA_PATH + target_repo_string_tokens + '/' + repos_info_file
+    repos_info_filepath = constants.REPOS_INFO_METADATA_PATH + target_repo_string_tokens + '/' + repos_info_file
 
     target_repo_string_tokens_list = target_repo_string_tokens.split("___")
     target_repo_string = target_repo_string_tokens_list[0] + '/' + target_repo_string_tokens_list[1]
@@ -25,7 +24,7 @@ def get_commit_info_list(repo_obj):
     return [
          (
             commit.sha,
-            commit.commit.committer.date.strftime("%Y-%m-%d %H:%M:%S UTC"), 
+            datetime_helper.get_string_YYYYMMDD_HHMMSS_UTC(commit.commit.committer.date), 
             commit.html_url
           ) 
             for commit in repo_obj.get_commits()]
@@ -75,7 +74,7 @@ def main():
     forked_repos_metadata_dict_reachable = dict()
     forked_repos_list = [forked_repo for forked_repo in target_repo.get_forks()]
 
-    print(len(forked_repos_list))
+    # print(len(forked_repos_list))
     for forked_repo in forked_repos_list:
         forked_repo_name = forked_repo.full_name
         print(f"Querying {forked_repo_name} with {str(g.get_rate_limit())}")
@@ -88,17 +87,26 @@ def main():
 
         forked_commit_info_num = len(forked_commit_info_list)
         
+        last_commit_forked = forked_commit_info_list[0]
+        last_commit_timestamp_forked = last_commit_forked[1]
+        last_commit_url_forked = last_commit_forked[2]
+        print(last_commit_timestamp_forked)
+
         num_commits_diverged_target, num_commits_diverged_fork, last_common_commit = compare_target_forked_commits(target_commit_info_list, forked_commit_info_list)
-        created_at_date = forked_repo.created_at.strftime("%Y-%m-%d %H:%M:%S UTC")
-        
+        created_at_date = datetime_helper.get_string_YYYYMMDD_HHMMSS_UTC(forked_repo.created_at)
+                
         forked_repo_metadata = {
             "created_at": created_at_date,
             "num_commits_diverged_fork": num_commits_diverged_fork,
             "percent_commits_diverged_fork": round((num_commits_diverged_fork / forked_commit_info_num) * 100,2),
             "num_commits_diverged_target": num_commits_diverged_target,
             "percent_commits_diverged_target": round((num_commits_diverged_target / target_commit_info_num) * 100,2), 
-            "last_common_commit": last_common_commit
+            "last_common_commit_url": last_common_commit[2],
+            "last_common_commit_timestamp": last_common_commit[1],
+            "last_commit_url": last_commit_url_forked,
+            "last_commit_timestamp": last_commit_timestamp_forked
         }
+        print(forked_repo_metadata)
         forked_repos_metadata_dict[forked_repo_name] = forked_repo_metadata
         forked_repos_metadata_dict_reachable[forked_repo_name] = forked_repo_metadata
 
