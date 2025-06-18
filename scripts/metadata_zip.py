@@ -1,7 +1,7 @@
 from zipfile import ZipFile, ZIP_DEFLATED
 import os
 from argparse import ArgumentParser
-from metadata_stats import REPOS_INFO_METADATA_PATH, JSON_SUFFIX
+from utils import constants
 
 ZIP_SUFFIX = ".zip"
 
@@ -13,7 +13,7 @@ def main():
 
     metadata_dir_list = []
     if args.metadata_dir == "all":
-        all_metadata_dir_path = REPOS_INFO_METADATA_PATH
+        all_metadata_dir_path = constants.REPOS_INFO_METADATA_PATH
         metadata_dir_list = os.listdir(all_metadata_dir_path)
     else:
         metadata_dir_list.append(args.metadata_dir)
@@ -26,7 +26,7 @@ def main():
     for metadata_dir in metadata_dir_list: 
         print(f"Zipping all files up to {end_date} for {metadata_dir}")
 
-        metadata_dir_path = REPOS_INFO_METADATA_PATH + metadata_dir + '/'
+        metadata_dir_path = constants.REPOS_INFO_METADATA_PATH + metadata_dir + '/'
         metadata_files_list = sorted(os.listdir(metadata_dir_path))
 
         full_zip_filepath = metadata_dir_path + metadata_dir + "___" + end_date + ZIP_SUFFIX
