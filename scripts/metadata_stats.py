@@ -4,11 +4,21 @@ from pprint import pprint
 import os
 import logging
 import pandas as pd
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 log = logging.getLogger()
 
 # Set threshold of logger to info
 log.setLevel(logging.INFO)
+
+
+def trend_slope(y):
+    x = np.arange(len(y)).reshape(-1, 1)  # Independent variable (0, 1, ..., n-1)
+    linear_regression_model = LinearRegression()
+    linear_regression_model.fit(x, y)
+    return linear_regression_model.coef_[0]  # Return the slope
+
 
 def fill_in_missing_dates(counts_metadata_df):
     index_list = sorted(counts_metadata_df.index.to_list())
@@ -23,7 +33,7 @@ def fill_in_missing_dates(counts_metadata_df):
             counts_metadata_df.loc[date_string] = [float('nan')] * len(constants.COUNT_KEYS)
     
     counts_metadata_df.sort_index(inplace=True)
-    counts_metadata_df.interpolate(method="linear")
+    counts_metadata_df.interpolate(method="linear", inplace=True)
     return counts_metadata_df
 
 
@@ -45,12 +55,17 @@ def stats_log(counts_metadata_dict):
     # pprint(change_per_day_df)
     change_per_day_dict = change_per_day_df.to_dict('index')
 
-    change_per_day_over_week_df = df.diff(7) / 7.0
-    # pprint(change_per_day_over_week_df)
-    change_per_day_over_week_dict = change_per_day_over_week_df.to_dict('index')
+    # change_per_day_over_week_df = df.diff(7) / 7.0
+    # # pprint(change_per_day_over_week_df)
+    # change_per_day_over_week_dict = change_per_day_over_week_df.to_dict('index')
+
+    trend_slope_over_week_df = pd.DataFrame(index=df.index)
+    for count_key in constants.COUNT_KEYS:
+        trend_slope_over_week_df[count_key] = df[count_key].rolling(window=7).apply(trend_slope, raw=True)
+    trend_slope_over_week_dict = trend_slope_over_week_df.to_dict('index')
 
     # summary_stats_dict,
-    return change_per_day_dict, change_per_day_over_week_dict
+    return change_per_day_dict, trend_slope_over_week_dict
 
 
 def main():
@@ -70,27 +85,36 @@ def main():
 
         stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
         stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
+        print(f"reading {stats_full_path}")
         stats_dict = json_helper.read_json(stats_full_path)
+
+        if not stats_dict:
+            stats_dict = {
+                "cd_d": {},
+                "ts_w": {},
+            }
 
         metadata_dir_path = constants.REPOS_INFO_METADATA_PATH + metadata_dir + '/'
         metadata_files_list = sorted(os.listdir(metadata_dir_path))
         
         metadata_json_repo_count_dict = dict()
         for filename in metadata_files_list:
-            filename_noext = os.path.splitext(filename)[0]
+            filename_noext, filename_ext = os.path.splitext(filename)
+            if filename_ext != constants.JSON_SUFFIX: continue
+            print(f"reading {filename}")
             filename_date = filename_noext[-8:]
             
             filename_fullpath = metadata_dir_path + '/' + filename
             raw_metadata_dict = json_helper.read_json(filename_fullpath)
-            counts_dict = {key:value for key,value in raw_metadata_dict.items() if key in COUNT_KEYS}
+            counts_dict = {key:value for key,value in raw_metadata_dict.items() if key in constants.COUNT_KEYS}
             metadata_json_repo_count_dict[filename_date] = counts_dict
             
         # summary_stats_dict, 
-        change_per_day_dict, change_per_day_over_week_dict = stats_log(metadata_json_repo_count_dict)
-        # pprint(change_per_day_dict)
+        change_per_day_dict, trend_slope_over_week_dict = stats_log(metadata_json_repo_count_dict)
+        # pprint(trend_slope_over_week_dict)
 
         stats_dict["cd_d"].update(change_per_day_dict)
-        stats_dict["cd_w"].update(change_per_day_over_week_dict)
+        stats_dict["ts_w"].update(trend_slope_over_week_dict)
         json_helper.save_json(stats_full_path, stats_dict)
 
 
