@@ -12,27 +12,27 @@ log.setLevel(logging.INFO)
 
 
 
-def calculate_derivative(target_dict):
+def calculate_avg(target_dict):
     df = pd.DataFrame(target_dict).T
 
-    summary_stats_df = df.describe()
-    variance_df = df.var().to_frame('variance').T
-    median_df = df.median().to_frame('median').T
-    summary_stats_df = pd.concat([summary_stats_df, variance_df])
-    summary_stats_df = pd.concat([summary_stats_df, median_df])
-    # pprint(summary_stats_df)
-    summary_stats_dict = summary_stats_df.to_dict('index')
+    # summary_stats_df = df.describe()
+    # variance_df = df.var().to_frame('variance').T
+    # median_df = df.median().to_frame('median').T
+    # summary_stats_df = pd.concat([summary_stats_df, variance_df])
+    # summary_stats_df = pd.concat([summary_stats_df, median_df])
+    # # pprint(summary_stats_df)
+    # summary_stats_dict = summary_stats_df.to_dict('index')
 
-    derivative_df = df.diff() / 1.0
-    # pprint(derivative_df)
-    derivative_1_dict = derivative_df.to_dict('index')
+    avg_df = df.diff() / 1.0
+    # pprint(avg_df)
+    avg_1_dict = avg_df.to_dict('index')
 
-    derivative_7_df = df.diff(7) / 7.0
-    # pprint(derivative_7_df)
-    derivative_7_dict = derivative_7_df.to_dict('index')
+    avg_7_df = df.diff(7) / 7.0
+    # pprint(avg_7_df)
+    avg_7_dict = avg_7_df.to_dict('index')
 
-    return summary_stats_dict, derivative_1_dict, derivative_7_dict
-
+    return avg_1_dict, avg_7_dict
+    
 
 def main():
     argparser = ArgumentParser(description="Dump stats on stats")
@@ -54,19 +54,17 @@ def main():
 
         stats_dict = json_helper.read_json(stats_file_path)
         cd_over_day_dict = stats_dict.get("cd_d")
-        summary_stats_cd_over_day_dict, derivative_1_cd_over_day_dict, derivative_7_cd_over_day_dict = calculate_derivative(cd_over_day_dict)
-        cd_over_week_dict = stats_dict.get("cd_w")
-        summary_stats_cd_over_week_dict, derivative_1_cd_over_week_dict, derivative_7_cd_over_week_dict = calculate_derivative(cd_over_week_dict)
+        cd_d_d, cd_d_7_avg = calculate_avg(cd_over_day_dict)
+        cd_over_week_dict = stats_dict.get("ts_w")
+        ts_w_d, ts_w_7_avg = calculate_avg(cd_over_week_dict)
 
         stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
         stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
-               "ss_cd_d": summary_stats_cd_over_day_dict,
-               "dd_cd_d": derivative_1_cd_over_day_dict,
-               "dw_cd_d": derivative_7_cd_over_day_dict,
-               "ss_cd_w": summary_stats_cd_over_week_dict,
-               "dd_cd_w": derivative_1_cd_over_week_dict,
-               "dw_cd_w": derivative_7_cd_over_week_dict
+               "cd_d_d": cd_d_d,
+               "cd_d_7_avg": cd_d_7_avg,
+               "ts_w_d": ts_w_d,
+               "ts_w_7_avg": ts_w_7_avg
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)

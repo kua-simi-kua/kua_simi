@@ -52,19 +52,13 @@ def stats_log(counts_metadata_dict):
     df = fill_in_missing_dates(df)
 
     change_per_day_df = df.diff() / 1.0
-    # pprint(change_per_day_df)
     change_per_day_dict = change_per_day_df.to_dict('index')
-
-    # change_per_day_over_week_df = df.diff(7) / 7.0
-    # # pprint(change_per_day_over_week_df)
-    # change_per_day_over_week_dict = change_per_day_over_week_df.to_dict('index')
 
     trend_slope_over_week_df = pd.DataFrame(index=df.index)
     for count_key in constants.COUNT_KEYS:
         trend_slope_over_week_df[count_key] = df[count_key].rolling(window=7).apply(trend_slope, raw=True)
     trend_slope_over_week_dict = trend_slope_over_week_df.to_dict('index')
 
-    # summary_stats_dict,
     return change_per_day_dict, trend_slope_over_week_dict
 
 
