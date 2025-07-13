@@ -13,3 +13,6 @@ STATS_SUFFIX = '___stats'
 JSON_SUFFIX = '.json'
 COUNT_KEYS = ["forks_count", "stargazers_count", "contributor_count", "subscribers_count", "committers_count"]
 MOST_RELEVANT_INTERACT_TYPES = ["forkers", "stargazers", "contributors", "subscribers", "committers"]
+
+CD_D = "cd_d"
+TS_W = "ts_w"
