@@ -16,3 +16,7 @@ MOST_RELEVANT_INTERACT_TYPES = ["forkers", "stargazers", "contributors", "subscr
 
 CD_D = "cd_d"
 TS_W = "ts_w"
+CD_D_D = "cd_d_d"
+CD_D_7_AVG = "cd_d_7_avg"
+TS_W_D = "ts_w_d"
+TS_W_7_AVG = "ts_w_7_avg"

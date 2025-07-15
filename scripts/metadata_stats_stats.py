@@ -5,23 +5,8 @@ import os
 import logging
 import pandas as pd
 
-log = logging.getLogger()
-
-# Set threshold of logger to info
-log.setLevel(logging.INFO)
-
-
-
 def calculate_avg(target_dict):
     df = pd.DataFrame(target_dict).T
-
-    # summary_stats_df = df.describe()
-    # variance_df = df.var().to_frame('variance').T
-    # median_df = df.median().to_frame('median').T
-    # summary_stats_df = pd.concat([summary_stats_df, variance_df])
-    # summary_stats_df = pd.concat([summary_stats_df, median_df])
-    # # pprint(summary_stats_df)
-    # summary_stats_dict = summary_stats_df.to_dict('index')
 
     avg_df = df.diff() / 1.0
     # pprint(avg_df)
@@ -61,10 +46,10 @@ def main():
         stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
         stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
-               "cd_d_d": cd_d_d,
-               "cd_d_7_avg": cd_d_7_avg,
-               "ts_w_d": ts_w_d,
-               "ts_w_7_avg": ts_w_7_avg
+               constants.CD_D_D: cd_d_d,
+               constants.CD_D_7_AVG: cd_d_7_avg,
+               constants.TS_W_D: ts_w_d,
+               constants.TS_W_7_AVG: ts_w_7_avg
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)
