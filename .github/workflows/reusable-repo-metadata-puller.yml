@@ -26,7 +26,7 @@ jobs:
         run: |
           git config --global user.name 'Kua Simi Kua'
           git config --global user.email 'kua_simi_kua@proton.me'
+          git pull
           git add ./repos_info/auth_metadata/
           git commit -m "Added metadata for today for ${{ inputs.repos_list_path }}"
-          git pull
           git push
