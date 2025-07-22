@@ -38,18 +38,18 @@ def main():
         stats_file_path = constants.REPOS_INFO_STATS_PATH + stats_file + constants.STATS_SUFFIX + constants.JSON_SUFFIX
 
         stats_dict = json_helper.read_json(stats_file_path)
-        cd_over_day_dict = stats_dict.get("cd_d")
-        cd_d_d, cd_d_7_avg = calculate_avg(cd_over_day_dict)
-        cd_over_week_dict = stats_dict.get("ts_w")
-        ts_w_d, ts_w_7_avg = calculate_avg(cd_over_week_dict)
+        cd_over_day_dict = stats_dict.get(constants.CD)
+        cd_d, cd_7a = calculate_avg(cd_over_day_dict)
+        cd_over_week_dict = stats_dict.get(constants.TSW)
+        tsw_d, tsw_7a = calculate_avg(cd_over_week_dict)
 
         stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
         stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
-               constants.CD_D_D: cd_d_d,
-               constants.CD_D_7_AVG: cd_d_7_avg,
-               constants.TS_W_D: ts_w_d,
-               constants.TS_W_7_AVG: ts_w_7_avg
+               constants.CD_D: cd_d,
+               constants.CD_7A: cd_7a,
+               constants.TSW_D: tsw_d,
+               constants.TSW_7A: tsw_7a
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)

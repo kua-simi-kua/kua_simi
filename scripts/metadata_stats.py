@@ -38,13 +38,13 @@ def stats_log(counts_metadata_dict, stats_dict):
 
     change_per_day_df = df.diff() / 1.0
     change_per_day_dict = change_per_day_df.to_dict('index')
-    stats_dict[constants.CD_D].update(change_per_day_dict)
+    stats_dict[constants.CD].update(change_per_day_dict)
 
     trend_slope_over_week_df = pd.DataFrame(index=df.index)
     for count_key in constants.COUNT_KEYS:
         trend_slope_over_week_df[count_key] = df[count_key].rolling(window=7).apply(trend_slope, raw=True)
     trend_slope_over_week_dict = trend_slope_over_week_df.to_dict('index')
-    stats_dict[constants.TS_W].update(trend_slope_over_week_dict)
+    stats_dict[constants.TSW].update(trend_slope_over_week_dict)
 
     return stats_dict
 
@@ -70,8 +70,8 @@ def main():
 
         if not stats_dict:
             stats_dict = {
-                constants.CD_D: {},
-                constants.TS_W: {},
+                constants.CD: {},
+                constants.TSW: {},
             }
         
         # latest_recorded_date = get_latest_recorded_date(stats_dict)

@@ -66,8 +66,8 @@ def main():
         print(f"reading {stats_full_path}")
         stats_dict = json_helper.read_json(stats_full_path)
 
-        cd_d_dict = stats_dict[constants.CD_D]
-        ts_w_dict = stats_dict[constants.TS_W]
+        cd_d_dict = stats_dict[constants.CD]
+        ts_w_dict = stats_dict[constants.TSW]
 
         cd_df_7, _, cd_7_summary = stats_summary(cd_d_dict, 7, args.target_date)
         cd_df_30, _, cd_30_summary = stats_summary(cd_d_dict, 30, args.target_date)
@@ -76,7 +76,7 @@ def main():
             target_date = args.target_date 
         else:
             target_date = cd_df_7.index[-1]
-            
+
         target_date_dict = dict()
         check_list = [
             ('cd_7', stats_summary_compare(cd_7_summary, cd_df_7)),
@@ -86,20 +86,6 @@ def main():
             if func: target_date_dict[key] = func
 
         print(target_date_dict)
-
-
-
-
-
-        # TODO:
-        # {
-            # "ph4ntonn___Stowaway": {
-            #     "20250414": {
-            #         forks_count_ts_w_7: 89, 
-            #         forks_count_ts_w_7_75: 67
-            #     }
-            # }
-        # } 
 
         
 

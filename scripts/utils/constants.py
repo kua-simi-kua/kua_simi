@@ -14,9 +14,9 @@ JSON_SUFFIX = '.json'
 COUNT_KEYS = ["forks_count", "stargazers_count", "contributor_count", "subscribers_count", "committers_count"]
 MOST_RELEVANT_INTERACT_TYPES = ["forkers", "stargazers", "contributors", "subscribers", "committers"]
 
+CD = "cd"
+TSW = "tsw"
 CD_D = "cd_d"
-TS_W = "ts_w"
-CD_D_D = "cd_d_d"
-CD_D_7_AVG = "cd_d_7_avg"
-TS_W_D = "ts_w_d"
-TS_W_7_AVG = "ts_w_7_avg"
+CD_7A = "cd_7a"
+TSW_D = "tsw_d"
+TSW_7A = "tsw_7a"
