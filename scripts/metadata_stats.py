@@ -15,6 +15,8 @@ def trend_slope(y):
 
 def fill_in_missing_dates(counts_metadata_df):
     index_list = sorted(counts_metadata_df.index.to_list())
+    if not len(index_list): # no metadata files i.e. repo has become inaccessible
+        return pd.DataFrame()
     
     start_date = index_list[0]
     end_date = index_list[-1]
@@ -34,7 +36,8 @@ def stats_log(counts_metadata_dict, stats_dict):
 
     df = pd.DataFrame(counts_metadata_dict).T
     df = fill_in_missing_dates(df)
-    print(df)
+    if df.empty: # empty df i.e. repo has become inaccessible 
+        return dict()
 
     change_per_day_df = df.diff() / 1.0
     change_per_day_dict = change_per_day_df.to_dict('index')
@@ -68,7 +71,7 @@ def main():
         print(f"reading {stats_full_path}")
         stats_dict = json_helper.read_json(stats_full_path)
 
-        if not stats_dict:
+        if not stats_dict or not len(stats_dict):
             stats_dict = {
                 constants.CD: {},
                 constants.TSW: {},
@@ -91,7 +94,8 @@ def main():
             metadata_json_repo_count_dict[filename_date] = counts_dict
             
         stats_updated_dict = stats_log(metadata_json_repo_count_dict, stats_dict)
-        json_helper.save_json(stats_full_path, stats_updated_dict)
+        if len(stats_updated_dict):
+            json_helper.save_json(stats_full_path, stats_updated_dict)
 
 
 if __name__ == "__main__":
