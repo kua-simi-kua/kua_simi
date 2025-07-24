@@ -24,7 +24,7 @@ def fill_in_missing_dates(counts_metadata_df):
 def stats_summary(stats_dict, period, target_date=None):
     stats_df = pd.DataFrame(stats_dict).T
 
-    if target_date:
+    if target_date and target_date in stats_df.index:
         stats_df = stats_df[stats_df.index <= target_date]
     df_period = stats_df.tail(period)
 
@@ -68,8 +68,12 @@ def main():
 
         stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
         stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
-        print(f"reading {stats_full_path}")
         stats_dict = json_helper.read_json(stats_full_path)
+        if stats_dict:
+            print(f"reading {stats_full_path}")
+        else:
+            print(f"{stats_full_path} is either non-existent or empty")
+            continue
 
         cd_dict = stats_dict[constants.CD]
         tsw_dict = stats_dict[constants.TSW]
@@ -80,11 +84,7 @@ def main():
         tsw_df_30, _, tsw_30_summary = stats_summary(tsw_dict, 30, args.target_date)
 
         if args.log_file:
-            if args.target_date: 
-                target_date = args.target_date 
-            else:
-                target_date = cd_df_7.index[-1]
-
+            target_date = cd_df_7.index[-1]
             target_date_dict = dict()
             check_list = [
                 ('cd_7', stats_summary_compare(cd_7_summary, cd_df_7)),
