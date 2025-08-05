@@ -5,6 +5,7 @@ REPOS_INFO_PATH = "../repos_info/"
 REPOS_INFO_METADATA_PATH = REPOS_INFO_PATH + "auth_metadata/"
 REPOS_INFO_STATS_PATH = REPOS_INFO_PATH + "stats/"
 REPOS_INFO_STATS_STATS_PATH = REPOS_INFO_PATH + "stats_stats/"
+REPOS_INFO_ALERTS_PATH = REPOS_INFO_PATH + "alerts/"
 
 USER_INFO_PATH = "../user_info/"
 USER_INFO_PREFIX = "user_info_"
