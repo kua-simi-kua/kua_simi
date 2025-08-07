@@ -4,22 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 from pprint import pprint
-
-def fill_in_missing_dates(counts_metadata_df):
-    index_list = sorted(counts_metadata_df.index.to_list())
-    
-    start_date = index_list[0]
-    end_date = index_list[-1]
-    full_date_range = pd.date_range(start=start_date, end=end_date).to_list()
-    full_date_range = [datetimestamp.strftime("%Y%m%d") for datetimestamp in full_date_range]
-
-    for date_string in full_date_range:
-        if date_string not in index_list:
-            counts_metadata_df.loc[date_string] = [float('nan')] * len(constants.COUNT_KEYS)
-    
-    counts_metadata_df.sort_index(inplace=True)
-    counts_metadata_df.interpolate(method="linear", inplace=True)
-    return counts_metadata_df
+from collections import defaultdict
 
 def stats_summary(stats_dict, period, target_date=None):
     stats_df = pd.DataFrame(stats_dict).T
@@ -32,29 +17,28 @@ def stats_summary(stats_dict, period, target_date=None):
     summary_dict = summary_df.to_dict()
     return df_period, summary_df, summary_dict
 
-def stats_summary_compare(summary_dict, stats_df):
-    target_row_dict = stats_df.tail(1).to_dict()
-    target_date = stats_df.index[-1]
-    alert_row_dict = {}
-    for count_key in constants.COUNT_KEYS:
+def stats_summary_compare(dfsummary_list, repo_count_alerts_filepath, count_key):
+    repo_count_alerts = json_helper.read_json(repo_count_alerts_filepath)
+    if not repo_count_alerts: repo_count_alerts = {}
+    repo_count_alerts = defaultdict(dict, repo_count_alerts)
+    for alert_type, stats_df, summary_dict in dfsummary_list:
+        target_row_dict = stats_df.tail(1).to_dict()
+        target_date = stats_df.index[-1]
         if target_row_dict[count_key][target_date] > summary_dict[count_key]['75%']:
-            alert_row_dict[count_key] = {
+            repo_count_alerts[target_date][alert_type] = {
                 'target': target_row_dict[count_key][target_date],
                 '75': summary_dict[count_key]['75%']
             }
-    return alert_row_dict
+    repo_count_alerts = dict(repo_count_alerts)
+    json_helper.save_json(repo_count_alerts_filepath, repo_count_alerts)
+    print(f"written {repo_count_alerts_filepath}")
 
 def main():
     argparser = ArgumentParser(description="Dump stats on metadata")
     argparser.add_argument("metadata_dir", help="repos_info directory with metadata files")
     argparser.add_argument("-td", "--target-date", help="target date to compare stats", nargs="?", default=None)
-    argparser.add_argument("-l", "--log-file", help="log file to log alerts", nargs="?", default="")
     args = argparser.parse_args()
 
-    if len(args.log_file):
-        alerts_dict = json_helper.read_json(args.log_file)
-        if not alerts_dict:
-            alerts_dict = dict()
 
     metadata_dir_list = []
     if args.metadata_dir == "all":
@@ -63,6 +47,7 @@ def main():
     else:
         metadata_dir_list.append(args.metadata_dir)
 
+    print(f"Examining target date of {args.target_date}")
     for metadata_dir in metadata_dir_list:
         print(f"Processing {metadata_dir}")
 
@@ -82,34 +67,39 @@ def main():
         cd_df_30, _, cd_30_summary = stats_summary(cd_dict, 30, args.target_date)
         tsw_df_7, _, tsw_7_summary = stats_summary(tsw_dict, 7, args.target_date)
         tsw_df_30, _, tsw_30_summary = stats_summary(tsw_dict, 30, args.target_date)
+        dfsummary_list = [
+            ('cd_7', cd_df_7, cd_7_summary),
+            ('cd_30', cd_df_30, cd_30_summary),
+            ('tsw_7', tsw_df_7, tsw_7_summary),
+            ('tsw_30', tsw_df_30, tsw_30_summary)            
+        ]
 
-        if args.log_file:
-            target_date = cd_df_7.index[-1]
-            target_date_dict = dict()
-            check_list = [
-                ('cd_7', stats_summary_compare(cd_7_summary, cd_df_7)),
-                ('cd_30', stats_summary_compare(cd_30_summary, cd_df_30)),
-                ('tsw_7', stats_summary_compare(tsw_7_summary, tsw_df_7)),
-                ('tsw_30', stats_summary_compare(tsw_30_summary, tsw_df_30))
-            ]
-            for key, func in check_list:
-                if func: target_date_dict[key] = func
-            
-            if len(target_date_dict):
-                if metadata_dir in alerts_dict:
-                    alerts_dict[metadata_dir].update({target_date: target_date_dict})
-                else:
-                    alerts_dict[metadata_dir] = {target_date: target_date_dict}
-            
-            json_helper.save_json(args.log_file, alerts_dict)
-        else:
-            continue
+        repo_alerts_dir_path = constants.REPOS_INFO_ALERTS_PATH + metadata_dir + '/'
+        os.makedirs(repo_alerts_dir_path, exist_ok=True)
+        for count_key in constants.COUNT_KEYS:
+            repo_count_alerts_filepath = repo_alerts_dir_path + count_key + constants.JSON_SUFFIX
+            stats_summary_compare(dfsummary_list, repo_count_alerts_filepath, count_key)
+
+    #     target_date = cd_df_7.index[-1]
+    #     target_date_dict = dict()
+    #     check_list = [ 
+    #         ('cd_7', stats_summary_compare(cd_7_summary, cd_df_7)),
+    #         ('cd_30', stats_summary_compare(cd_30_summary, cd_df_30)),
+    #         ('tsw_7', stats_summary_compare(tsw_7_summary, tsw_df_7)),
+    #         ('tsw_30', stats_summary_compare(tsw_30_summary, tsw_df_30))
+    #     ]
+    #     for key, func in check_list:
+    #         if func: target_date_dict[key] = func
         
-
-
+    #     if len(target_date_dict):
+    #         if metadata_dir in alerts_dict:
+    #             alerts_dict[metadata_dir].update({target_date: target_date_dict})
+    #         else:
+    #             alerts_dict[metadata_dir] = {target_date: target_date_dict}
         
-
+    #     json_helper.save_json(args.log_file, alerts_dict)
+    # else:
+            # continue
         
-
 if __name__ == "__main__":
     main()
