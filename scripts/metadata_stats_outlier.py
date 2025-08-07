@@ -79,27 +79,6 @@ def main():
         for count_key in constants.COUNT_KEYS:
             repo_count_alerts_filepath = repo_alerts_dir_path + count_key + constants.JSON_SUFFIX
             stats_summary_compare(dfsummary_list, repo_count_alerts_filepath, count_key)
-
-    #     target_date = cd_df_7.index[-1]
-    #     target_date_dict = dict()
-    #     check_list = [ 
-    #         ('cd_7', stats_summary_compare(cd_7_summary, cd_df_7)),
-    #         ('cd_30', stats_summary_compare(cd_30_summary, cd_df_30)),
-    #         ('tsw_7', stats_summary_compare(tsw_7_summary, tsw_df_7)),
-    #         ('tsw_30', stats_summary_compare(tsw_30_summary, tsw_df_30))
-    #     ]
-    #     for key, func in check_list:
-    #         if func: target_date_dict[key] = func
-        
-    #     if len(target_date_dict):
-    #         if metadata_dir in alerts_dict:
-    #             alerts_dict[metadata_dir].update({target_date: target_date_dict})
-    #         else:
-    #             alerts_dict[metadata_dir] = {target_date: target_date_dict}
-        
-    #     json_helper.save_json(args.log_file, alerts_dict)
-    # else:
-            # continue
         
 if __name__ == "__main__":
     main()
