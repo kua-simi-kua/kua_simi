@@ -3,7 +3,7 @@ run-name: Stats and Alerts
 on: 
   workflow_dispatch
 jobs:
-  Repo-Metadata-Pull:
+  Stats:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
