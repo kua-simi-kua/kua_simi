@@ -22,3 +22,21 @@ jobs:
           git add ./repos_info/
           git commit -m "Added stats and stats_stats for today"
           git push
+  Alerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: List files in the repository
+        run: ls ${{ github.workspace }}
+      - name: Run Docker image
+        uses: ./docker/alerts/
+      - name: Commit and Pushing Updates
+        # uses: actions4git/add-commit-push@v1
+        run: |
+          git config --global user.name 'Kua Simi Kua'
+          git config --global user.email 'kua_simi_kua@proton.me'
+          git pull
+          git add ./repos_info/
+          git commit -m "Added stats and stats_stats for today"
+          git push
