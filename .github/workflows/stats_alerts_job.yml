@@ -12,7 +12,7 @@ jobs:
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - name: Run Docker image
-        uses: ./docker/statsnalerts/
+        uses: ./docker/stats/
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
