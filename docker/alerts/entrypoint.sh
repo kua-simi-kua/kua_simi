@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd ./scripts/ && python ./metadata_stats_alerts.py all -td $(date +"%Y%m%d")
+cd ./scripts/ && python ./metadata_stats_alerts.py all

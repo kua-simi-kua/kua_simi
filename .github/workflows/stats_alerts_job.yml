@@ -1,8 +1,8 @@
 name: Stats and Alerts Job
 run-name: Stats and Alerts
-on: workflow_dispatch
-  # schedule:
-  #   - cron: "8 8 * * *"
+on: #workflow_dispatch
+  schedule:
+    - cron: "8 8 * * *"
 jobs:
   Stats:
     runs-on: ubuntu-latest
