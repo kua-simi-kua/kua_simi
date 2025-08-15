@@ -38,5 +38,5 @@ jobs:
           git config --global user.email 'kua_simi_kua@proton.me'
           git pull
           git add ./repos_info/
-          git commit -m "Added stats and stats_stats for today"
+          git commit -m "Added alerts for today"
           git push
