@@ -17,7 +17,7 @@ MOST_RELEVANT_INTERACT_TYPES = ["forkers", "stargazers", "contributors", "subscr
 
 CD = "cd"
 TSW = "tsw"
-CD_D = "cd_d"
-CD_7A = "cd_7a"
-TSW_D = "tsw_d"
-TSW_7A = "tsw_7a"
+CD_CD = "cd_cd"
+CD_TSW = "cd_tsw"
+TSW_CD = "tsw_cd"
+TSW_TSW = "tsw_tsw"

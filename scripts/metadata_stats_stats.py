@@ -1,23 +1,21 @@
-from utils import json_helper, constants
-from argparse import ArgumentParser
-from pprint import pprint
-import os
-import logging
-import pandas as pd
+from metadata_stats import *
 
-def calculate_avg(target_dict):
+def stats_stats_log(target_dict):
     df = pd.DataFrame(target_dict).T
 
-    avg_df = df.diff() / 1.0
-    # pprint(avg_df)
-    avg_1_dict = avg_df.to_dict('index')
+    change_per_day_df = df.diff() / 1.0
+    change_per_day_dict = change_per_day_df.to_dict('index')
 
-    avg_7_df = df.diff(7) / 7.0
-    # pprint(avg_7_df)
-    avg_7_dict = avg_7_df.to_dict('index')
+    # avg_7_df = df.diff(7) / 7.0
+    # # pprint(avg_7_df)
+    # avg_7_dict = avg_7_df.to_dict('index')
 
-    return avg_1_dict, avg_7_dict
-    
+    trend_slope_over_week_df = pd.DataFrame(index=df.index)
+    for count_key in constants.COUNT_KEYS:
+        trend_slope_over_week_df[count_key] = df[count_key].rolling(window=7).apply(trend_slope, raw=True)
+    trend_slope_over_week_dict = trend_slope_over_week_df.to_dict('index')
+
+    return change_per_day_dict, trend_slope_over_week_dict
 
 def main():
     argparser = ArgumentParser(description="Dump stats on stats")
@@ -39,17 +37,17 @@ def main():
 
         stats_dict = json_helper.read_json(stats_file_path)
         cd_over_day_dict = stats_dict.get(constants.CD)
-        cd_d, cd_7a = calculate_avg(cd_over_day_dict)
+        cd_cd, cd_tsw = stats_stats_log(cd_over_day_dict)
         cd_over_week_dict = stats_dict.get(constants.TSW)
-        tsw_d, tsw_7a = calculate_avg(cd_over_week_dict)
+        tsw_cd, tsw_tsw = stats_stats_log(cd_over_week_dict)
 
         stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
         stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
         stats_stats_dict = {
-               constants.CD_D: cd_d,
-               constants.CD_7A: cd_7a,
-               constants.TSW_D: tsw_d,
-               constants.TSW_7A: tsw_7a
+               constants.CD_CD: cd_cd,
+               constants.CD_TSW: cd_tsw,
+               constants.TSW_CD: tsw_cd,
+               constants.TSW_TSW: tsw_tsw
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)
