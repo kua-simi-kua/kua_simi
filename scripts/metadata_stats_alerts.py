@@ -39,7 +39,6 @@ def main():
     argparser.add_argument("-td", "--target-date", help="target date to compare stats", nargs="?", default=None)
     args = argparser.parse_args()
 
-
     metadata_dir_list = []
     if args.metadata_dir == "all":
         all_metadata_dir_path = constants.REPOS_INFO_METADATA_PATH
@@ -54,24 +53,44 @@ def main():
         stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
         stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
         stats_dict = json_helper.read_json(stats_full_path)
-        if stats_dict:
-            print(f"reading {stats_full_path}")
+
+        stats_stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.STATS_SUFFIX + constants.JSON_SUFFIX
+        stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
+        stats_stats_dict = json_helper.read_json(stats_stats_full_path)
+
+        if stats_dict and stats_stats_dict:
+            print(f"reading {metadata_dir}")
         else:
-            print(f"{stats_full_path} is either non-existent or empty")
+            print(f"1 of {stats_full_path} or {stats_stats_full_path} is either non-existent or empty")
             continue
 
         cd_dict = stats_dict[constants.CD]
         tsw_dict = stats_dict[constants.TSW]
 
+        cd_cd_dict = stats_stats_dict[constants.CD_CD]
+        cd_tsw_dict = stats_stats_dict[constants.CD_TSW]
+        tsw_cd_dict = stats_stats_dict[constants.TSW_CD]
+        tsw_tsw_dict = stats_stats_dict[constants.TSW_TSW]
+
         cd_df_7, _, cd_7_summary = stats_summary(cd_dict, 7, args.target_date)
         cd_df_30, _, cd_30_summary = stats_summary(cd_dict, 30, args.target_date)
         tsw_df_7, _, tsw_7_summary = stats_summary(tsw_dict, 7, args.target_date)
         tsw_df_30, _, tsw_30_summary = stats_summary(tsw_dict, 30, args.target_date)
+
+        cd_tsw_df_30, _, cd_tsw_30_summary = stats_summary(cd_tsw_dict, 30, args.target_date)
+        cd_tsw_df_7, _, cd_tsw_7_summary = stats_summary(cd_tsw_dict, 7, args.target_date)
+        tsw_tsw_df_30, _, tsw_tsw_30_summary = stats_summary(tsw_tsw_dict, 30, args.target_date)
+        tsw_tsw_df_7, _, tsw_tsw_7_summary = stats_summary(tsw_tsw_dict, 7, args.target_date)
+
         dfsummary_list = [
             ('cd_7', cd_df_7, cd_7_summary),
             ('cd_30', cd_df_30, cd_30_summary),
             ('tsw_7', tsw_df_7, tsw_7_summary),
-            ('tsw_30', tsw_df_30, tsw_30_summary)            
+            ('tsw_30', tsw_df_30, tsw_30_summary),
+            ('cd_tsw_30', cd_tsw_df_30, cd_tsw_30_summary),
+            ('cd_tsw_7', cd_tsw_df_7, cd_tsw_7_summary),
+            ('tsw_tsw_30', tsw_tsw_df_30, tsw_tsw_30_summary),
+            ('tsw_tsw_7', tsw_tsw_df_7, tsw_tsw_7_summary),
         ]
 
         repo_alerts_dir_path = constants.REPOS_INFO_ALERTS_PATH + metadata_dir + '/'
