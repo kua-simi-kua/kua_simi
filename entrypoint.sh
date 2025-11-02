@@ -2,7 +2,5 @@
 
 file_path=$1
 token=$2
-do_key_id = $3
-do_key_secret = $4
 
-cd ./scripts/ && python ./auth_repo_metadata_pull.py $1 -t $2 -dt $3 $4
+cd ./scripts/ && python ./auth_repo_metadata_pull.py $1 -t $2
