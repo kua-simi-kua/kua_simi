@@ -8,3 +8,6 @@ jobs:
     uses: ./.github/workflows/reusable-repo-metadata-puller.yml
     with:
       repos_list_path: ../config/repos_list_dir/repos_list_11.json
+    secrets:
+      do_key_id: ${{ secrets.DO_KEY_ID }}
+      do_key_secret: ${{ secrets.DO_KEY_SECRET }}
