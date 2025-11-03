@@ -1,8 +1,8 @@
 name: Repo Metadata Puller for repos_list_8
 run-name: Pulling Repo Metadata
-on: workflow_dispatch
-  # schedule:
-  #   - cron: "8 20 * * *"
+on: 
+  schedule:
+    - cron: "8 20 * * *"
 jobs:
   Run-reusable-metadata-puller:
     uses: ./.github/workflows/reusable-repo-metadata-puller.yml
