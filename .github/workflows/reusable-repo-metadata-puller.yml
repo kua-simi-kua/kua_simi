@@ -6,6 +6,11 @@ on:
       repos_list_path:
         required: true
         type: string
+    secrets:
+      do_key_id: 
+        required: true
+      do_key_secret: 
+        required: true
   # schedule:
   #   - cron: "38 1 * * *"
 jobs:
