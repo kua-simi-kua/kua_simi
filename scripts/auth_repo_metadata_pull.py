@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from datetime import datetime, date
 import time
 import os
-from utils import json_helper, constants
+from utils import json_helper, constants, SpaceLaunchPad
 
 # class RepoProxy:
 
@@ -31,12 +31,16 @@ def obtain_collected_metadata_filepath(repo_string):
     today_date = date.today().strftime("%Y%m%d")
     metadata_filename = metadata_string + "___" + today_date
     full_file_path = os.path.join(repos_info_folder_path, f"{metadata_filename}.json")
-    return full_file_path    
+
+    do_key = f"repos_info/auth_metadata/{metadata_string}/{metadata_filename}.json"
+    return do_key, full_file_path    
+
 
 def main():
     argparser = ArgumentParser(description="Pull GitHub metadata of a given repo")
     argparser.add_argument("repo_config_file", help="Config file containing list of target repo URLs")
     argparser.add_argument("--token", "-t", help="Github token", nargs="?", default=None)
+    argparser.add_argument("--do_token", "-dt", help="DigitalOcean Key ID and Key Secret", nargs=2, default=None)
     args = argparser.parse_args()
 
     if args.token:
@@ -47,6 +51,9 @@ def main():
             auth_token_raw.strip()
             auth_token = Auth.Token(auth_token_raw)
     g = Github(auth=auth_token)
+
+    do_token_list = args.do_token
+    space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
 
     repo_list = json_helper.read_json(args.repo_config_file)
     print(f"Taking in list of target repos from config file {args.repo_config_file}")
@@ -126,7 +133,7 @@ def main():
 
         # Prep metadata_filepath to store updated info
         # if metadata_filepath does not exist, creat empty dict to store info
-        metadata_filepath = obtain_collected_metadata_filepath(target_repo_string)
+        do_key, metadata_filepath = obtain_collected_metadata_filepath(target_repo_string)
 
         # append metadata to the current json file for that target repo
         metadata_dict = {
@@ -156,6 +163,8 @@ def main():
         # print(metadata_at_timestamp_dict)
 
         json_helper.save_json(metadata_filepath, metadata_dict)
+
+        space_launch_pad.launch_to_space(key=do_key, file_path=metadata_filepath)
         print(f"Finish pulling metadata for {target_repo_url}")
         end_time = time.perf_counter()
         time_elapsed = round(end_time - start_time, 2)

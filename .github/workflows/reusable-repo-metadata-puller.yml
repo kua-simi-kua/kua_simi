@@ -21,6 +21,8 @@ jobs:
         with:
           file_path: ${{ inputs.repos_list_path }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          do_key_id: ${{ secrets.DO_KEY_ID }}
+          do_key_secret: ${{ secrets.DO_KEY_SECRET }}
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
