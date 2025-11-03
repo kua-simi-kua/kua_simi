@@ -17,3 +17,5 @@ runs:
   args:
     - '${{ inputs.file_path }}'
     - '${{ inputs.token }}'
+    - '${{ inputs.do_key_id }}'
+    - '${{ inputs.do_key_secret }}' 
