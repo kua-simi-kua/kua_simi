@@ -3,11 +3,6 @@ run-name: Stats and Alerts
 on: workflow_dispatch
   # schedule:
   #   - cron: "8 8 * * *"
-  secrets:
-    do_key_id: 
-      required: true
-    do_key_secret: 
-      required: true
 jobs:
   Stats:
     runs-on: ubuntu-latest
