@@ -1,0 +1,19 @@
+# action.yml
+name: 'Run Docker Image'
+description: 'Docker test'
+inputs:
+  do_key_id:
+    description: 'DigitalOcean Key ID'
+    required: true
+  do_key_secret:
+    description: "DigitalOcean Key Secret"
+    required: true
+outputs:
+  results: # id of output
+    description: 'results'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - '${{ inputs.do_key_id }}'
+    - '${{ inputs.do_key_secret }}' 

@@ -20,6 +20,7 @@ def stats_stats_log(target_dict):
 def main():
     argparser = ArgumentParser(description="Dump stats on stats")
     argparser.add_argument("stats_file", help="repos_info stats files")
+    argparser.add_argument("--do_token", "-dt", help="DigitalOcean Key ID and Key Secret", nargs=2, default=None)
     args = argparser.parse_args()
 
     stats_file_list = []
@@ -30,6 +31,9 @@ def main():
         stats_file_list = [stats_file[:-suffix_len] for stats_file in stats_file_list]
     else:
         stats_file_list.append(args.stats_file)
+
+    do_token_list = args.do_token
+    space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
     
     for stats_file in stats_file_list:
         print(f"Getting stats_stats on {stats_file}")
@@ -51,6 +55,8 @@ def main():
         }
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)
+        do_key = stats_stats_full_path[3:] # remove `../` from the stats_full_path
+        space_launch_pad.launch_to_space(key=do_key, file_path=stats_stats_full_path)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from utils import json_helper, constants
+from utils import json_helper, constants, SpaceLaunchPad
 from argparse import ArgumentParser
 import os
 import pandas as pd
@@ -54,6 +54,7 @@ def stats_log(counts_metadata_dict, stats_dict):
 def main():
     argparser = ArgumentParser(description="Dump stats on metadata")
     argparser.add_argument("metadata_dir", help="repos_info directory with metadata files")
+    argparser.add_argument("--do_token", "-dt", help="DigitalOcean Key ID and Key Secret", nargs=2, default=None)
     args = argparser.parse_args()
 
     metadata_dir_list = []
@@ -62,6 +63,9 @@ def main():
         metadata_dir_list = os.listdir(all_metadata_dir_path)
     else:
         metadata_dir_list.append(args.metadata_dir)
+
+    do_token_list = args.do_token
+    space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
     
     for metadata_dir in metadata_dir_list:
         print(f"Getting stats on {metadata_dir}")
@@ -96,6 +100,8 @@ def main():
         stats_updated_dict = stats_log(metadata_json_repo_count_dict, stats_dict)
         if len(stats_updated_dict):
             json_helper.save_json(stats_full_path, stats_updated_dict)
+            do_key = stats_full_path[3:] # remove `../` from the stats_full_path
+            space_launch_pad.launch_to_space(key=do_key, file_path=stats_full_path)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
 PyGithub
 scikit-learn
 pandas
+boto3

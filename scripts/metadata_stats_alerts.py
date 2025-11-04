@@ -1,4 +1,4 @@
-from utils import json_helper, constants
+from utils import json_helper, constants, SpaceLaunchPad
 from argparse import ArgumentParser
 import os
 import pandas as pd
@@ -37,6 +37,7 @@ def main():
     argparser = ArgumentParser(description="Dump stats on metadata")
     argparser.add_argument("metadata_dir", help="repos_info directory with metadata files")
     argparser.add_argument("-td", "--target-date", help="target date to compare stats", nargs="?", default=None)
+    argparser.add_argument("--do_token", "-dt", help="DigitalOcean Key ID and Key Secret", nargs=2, default=None)
     args = argparser.parse_args()
 
     metadata_dir_list = []
@@ -45,6 +46,9 @@ def main():
         metadata_dir_list = os.listdir(all_metadata_dir_path)
     else:
         metadata_dir_list.append(args.metadata_dir)
+
+    do_token_list = args.do_token
+    space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
 
     print(f"Examining target date of {args.target_date}")
     for metadata_dir in metadata_dir_list:
@@ -98,6 +102,9 @@ def main():
         for count_key in constants.COUNT_KEYS:
             repo_count_alerts_filepath = repo_alerts_dir_path + count_key + constants.JSON_SUFFIX
             stats_summary_compare(dfsummary_list, repo_count_alerts_filepath, count_key)
+            do_key = repo_count_alerts_filepath[3:] # remove `../` from the stats_full_path
+            space_launch_pad.launch_to_space(key=do_key, file_path=repo_count_alerts_filepath)
+
         
 if __name__ == "__main__":
     main()

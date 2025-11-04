@@ -1,8 +1,13 @@
 name: Stats and Alerts Job
 run-name: Stats and Alerts
-on: #workflow_dispatch
-  schedule:
-    - cron: "8 8 * * *"
+on: workflow_dispatch
+  # schedule:
+  #   - cron: "8 8 * * *"
+  secrets:
+    do_key_id: 
+      required: true
+    do_key_secret: 
+      required: true
 jobs:
   Stats:
     runs-on: ubuntu-latest
@@ -13,6 +18,9 @@ jobs:
         run: ls ${{ github.workspace }}
       - name: Run Docker image
         uses: ./docker/stats/
+        with:
+          do_key_id: ${{ secrets.DO_KEY_ID }}
+          do_key_secret: ${{ secrets.DO_KEY_SECRET }}
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
@@ -32,6 +40,9 @@ jobs:
         run: ls ${{ github.workspace }}
       - name: Run Docker image
         uses: ./docker/alerts/
+        with:
+          do_key_id: ${{ secrets.DO_KEY_ID }}
+          do_key_secret: ${{ secrets.DO_KEY_SECRET }}
       - name: Commit and Pushing Updates
         # uses: actions4git/add-commit-push@v1
         run: |
