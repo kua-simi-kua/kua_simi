@@ -22,7 +22,7 @@ jobs:
           git config --global user.name 'Kua Simi Kua'
           git config --global user.email 'kua_simi_kua@proton.me'
           git pull
-          git add ./repos_info/
+          git add ./repos_info/stats*
           git commit -m "Added stats and stats_stats for today"
           git push
   Alerts:
@@ -44,6 +44,6 @@ jobs:
           git config --global user.name 'Kua Simi Kua'
           git config --global user.email 'kua_simi_kua@proton.me'
           git pull
-          git add ./repos_info/
+          git add ./repos_info/alerts/
           git commit -m "Added alerts for today"
           git push
