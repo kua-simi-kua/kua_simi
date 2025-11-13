@@ -28,12 +28,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           do_key_id: ${{ secrets.do_key_id }}
           do_key_secret: ${{ secrets.do_key_secret }}
-      - name: Commit and Pushing Updates
-        # uses: actions4git/add-commit-push@v1
-        run: |
-          git config --global user.name 'Kua Simi Kua'
-          git config --global user.email 'kua_simi_kua@proton.me'
-          git pull
-          git add ./repos_info/auth_metadata/
-          git commit -m "Added metadata for today for ${{ inputs.repos_list_path }}"
-          git push
+      # - name: Commit and Pushing Updates
+      #   # uses: actions4git/add-commit-push@v1
+      #   run: |
+      #     git config --global user.name 'Kua Simi Kua'
+      #     git config --global user.email 'kua_simi_kua@proton.me'
+      #     git pull
+      #     git add ./repos_info/auth_metadata/
+      #     git commit -m "Added metadata for today for ${{ inputs.repos_list_path }}"
+      #     git push
