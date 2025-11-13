@@ -4,7 +4,8 @@ import os
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 import numpy as np
-
+from pprint import pprint
+import datetime
 
 def trend_slope(y):
     x = np.arange(len(y)).reshape(-1, 1)  # Independent variable (0, 1, ..., n-1)
@@ -31,6 +32,26 @@ def fill_in_missing_dates(counts_metadata_df):
     counts_metadata_df.interpolate(method="linear", inplace=True)
     return counts_metadata_df
 
+def get_recent_stat_files(launch_pad, metadata_dir, start_days=8):
+    """
+    Getting metadata files from Space
+    """
+    today = datetime.date.today()
+    date_list = [(today - datetime.timedelta(days=i)).strftime("%Y%m%d") for i in range(start_days)]
+
+    for date_str in date_list:
+        try:
+            local_filepath = f"{constants.REPOS_INFO_METADATA_PATH}{metadata_dir}/{metadata_dir}___{date_str}{constants.JSON_SUFFIX}"
+            space_filename = local_filepath[3:]
+            print(f"getting {space_filename}")
+            launch_pad.get_from_space(space_filename, local_filepath)
+            print(f"Parking into {local_filepath}")
+        except Exception as e:
+            print(f"having trouble pulling {space_filename}")
+            print(e)
+
+    
+
 # Function to perform statistical analysis of counts
 def stats_log(counts_metadata_dict, stats_dict):
 
@@ -38,7 +59,7 @@ def stats_log(counts_metadata_dict, stats_dict):
     df = fill_in_missing_dates(df)
     if df.empty: # empty df i.e. repo has become inaccessible 
         return dict()
-
+    
     change_per_day_df = df.diff() / 1.0
     change_per_day_dict = change_per_day_df.to_dict('index')
     stats_dict[constants.CD].update(change_per_day_dict)
@@ -68,6 +89,8 @@ def main():
     space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
     
     for metadata_dir in metadata_dir_list:
+        get_recent_stat_files(space_launch_pad, metadata_dir)
+
         print(f"Getting stats on {metadata_dir}")
 
         stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
@@ -97,7 +120,11 @@ def main():
             counts_dict = {key:value for key,value in raw_metadata_dict.items() if key in constants.COUNT_KEYS}
             metadata_json_repo_count_dict[filename_date] = counts_dict
             
+        # pprint(metadata_json_repo_count_dict)
+        # print("\n\n\n\n")
+            
         stats_updated_dict = stats_log(metadata_json_repo_count_dict, stats_dict)
+        # pprint(stats_updated_dict)
         if len(stats_updated_dict):
             json_helper.save_json(stats_full_path, stats_updated_dict)
             do_key = stats_full_path[3:] # remove `../` from the stats_full_path
