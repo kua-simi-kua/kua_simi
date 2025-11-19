@@ -32,7 +32,7 @@ def fill_in_missing_dates(counts_metadata_df):
     counts_metadata_df.interpolate(method="linear", inplace=True)
     return counts_metadata_df
 
-def get_recent_stat_files(launch_pad, metadata_dir, start_days=8):
+def get_recent_metadata_files(launch_pad, metadata_dir, start_days=8):
     """
     Getting metadata files from Space
     """
@@ -89,13 +89,16 @@ def main():
     space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
     
     for metadata_dir in metadata_dir_list:
-        get_recent_stat_files(space_launch_pad, metadata_dir)
+        get_recent_metadata_files(space_launch_pad, metadata_dir)
 
-        print(f"Getting stats on {metadata_dir}")
+        print(f"Getting metadata on {metadata_dir}")
 
         stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
         stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
-        print(f"reading {stats_full_path}")
+        space_stats_filename = stats_full_path[3:]
+
+        print(f"Getting stats into {stats_full_path} and reading it")
+        space_launch_pad.get_from_space(space_stats_filename, stats_full_path)
         stats_dict = json_helper.read_json(stats_full_path)
 
         if not stats_dict or not len(stats_dict):
@@ -127,8 +130,7 @@ def main():
         # pprint(stats_updated_dict)
         if len(stats_updated_dict):
             json_helper.save_json(stats_full_path, stats_updated_dict)
-            do_key = stats_full_path[3:] # remove `../` from the stats_full_path
-            space_launch_pad.launch_to_space(key=do_key, file_path=stats_full_path)
+            space_launch_pad.launch_to_space(key=space_stats_filename, file_path=stats_full_path)
 
 
 if __name__ == "__main__":
