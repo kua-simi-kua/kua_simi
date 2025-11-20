@@ -37,7 +37,11 @@ def main():
     
     for stats_file in stats_file_list:
         print(f"Getting stats_stats on {stats_file}")
+
         stats_file_path = constants.REPOS_INFO_STATS_PATH + stats_file + constants.STATS_SUFFIX + constants.JSON_SUFFIX
+        space_stats_filename = stats_file_path[3:]
+        print(f"Getting stats into {stats_file_path} and reading it")
+        space_launch_pad.get_from_space(space_stats_filename, stats_file_path)
 
         stats_dict = json_helper.read_json(stats_file_path)
         cd_over_day_dict = stats_dict.get(constants.CD)
@@ -47,16 +51,18 @@ def main():
 
         stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
         stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
-        stats_stats_dict = {
-               constants.CD_CD: cd_cd,
-               constants.CD_TSW: cd_tsw,
-               constants.TSW_CD: tsw_cd,
-               constants.TSW_TSW: tsw_tsw
-        }
+        space_stats_stats_filename = stats_stats_full_path[3:]
+        print(f"Getting stats_stats into {stats_stats_full_path} and reading it")
+        space_launch_pad.get_from_space(space_stats_stats_filename, stats_stats_full_path)
+        stats_stats_dict = json_helper.read_json(stats_stats_full_path)
+
+        stats_stats_dict[constants.CD_CD].update(cd_cd)
+        stats_stats_dict[constants.CD_TSW].update(cd_tsw)
+        stats_stats_dict[constants.TSW_CD].update(tsw_cd)
+        stats_stats_dict[constants.TSW_TSW].update(tsw_tsw)
 
         json_helper.save_json(stats_stats_full_path, stats_stats_dict)
-        do_key = stats_stats_full_path[3:] # remove `../` from the stats_full_path
-        space_launch_pad.launch_to_space(key=do_key, file_path=stats_stats_full_path)
+        space_launch_pad.launch_to_space(key=space_stats_stats_filename, file_path=stats_stats_full_path)
 
 
 if __name__ == "__main__":
