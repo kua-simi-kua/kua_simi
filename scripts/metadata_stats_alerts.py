@@ -101,9 +101,12 @@ def main():
         os.makedirs(repo_alerts_dir_path, exist_ok=True)
         for count_key in constants.COUNT_KEYS:
             repo_count_alerts_filepath = repo_alerts_dir_path + count_key + constants.JSON_SUFFIX
+            space_repo_count_alerts_name = repo_count_alerts_filepath[3:]
+            print(f"Getting repo_count into {repo_count_alerts_filepath} and reading it")
+            space_launch_pad.get_from_space(space_repo_count_alerts_name, repo_count_alerts_filepath)
+
             stats_summary_compare(dfsummary_list, repo_count_alerts_filepath, count_key)
-            do_key = repo_count_alerts_filepath[3:] # remove `../` from the stats_full_path
-            space_launch_pad.launch_to_space(key=do_key, file_path=repo_count_alerts_filepath)
+            space_launch_pad.launch_to_space(key=space_repo_count_alerts_name, file_path=repo_count_alerts_filepath)
 
         
 if __name__ == "__main__":
