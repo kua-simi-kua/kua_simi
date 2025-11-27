@@ -25,10 +25,7 @@ def main():
 
     stats_file_list = []
     if args.stats_file == "all":
-        all_stats_file_path = constants.REPOS_INFO_STATS_PATH
-        stats_file_list = os.listdir(all_stats_file_path)
-        suffix_len = len(constants.STATS_SUFFIX + constants.JSON_SUFFIX)
-        stats_file_list = [stats_file[:-suffix_len] for stats_file in stats_file_list]
+        stats_file_list = kuasimi_helper.get_all_repo_strings()
     else:
         stats_file_list.append(args.stats_file)
 

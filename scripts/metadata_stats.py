@@ -1,4 +1,4 @@
-from utils import json_helper, constants, SpaceLaunchPad
+from utils import json_helper, constants, SpaceLaunchPad, kuasimi_helper
 from argparse import ArgumentParser
 import os
 import pandas as pd
@@ -80,8 +80,8 @@ def main():
 
     metadata_dir_list = []
     if args.metadata_dir == "all":
-        all_metadata_dir_path = constants.REPOS_INFO_METADATA_PATH
-        metadata_dir_list = os.listdir(all_metadata_dir_path)
+        metadata_dir_list = kuasimi_helper.get_all_repo_strings()
+        metadata_dir_list = [f"{constants.REPOS_INFO_METADATA_PATH}{repo_string}" for repo_string in metadata_dir_list]
     else:
         metadata_dir_list.append(args.metadata_dir)
 
