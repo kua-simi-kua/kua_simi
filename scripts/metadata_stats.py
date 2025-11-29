@@ -31,25 +31,6 @@ def fill_in_missing_dates(counts_metadata_df):
     counts_metadata_df.sort_index(inplace=True)
     counts_metadata_df.interpolate(method="linear", inplace=True)
     return counts_metadata_df
-
-def get_recent_metadata_files(launch_pad, metadata_dir, start_days=8):
-    """
-    Getting metadata files from Space
-    """
-    today = datetime.date.today()
-    date_list = [(today - datetime.timedelta(days=i)).strftime("%Y%m%d") for i in range(start_days)]
-
-    for date_str in date_list:
-        try:
-            local_filepath = f"{constants.REPOS_INFO_METADATA_PATH}{metadata_dir}/{metadata_dir}___{date_str}{constants.JSON_SUFFIX}"
-            space_filename = local_filepath[3:]
-            print(f"getting {space_filename}")
-            launch_pad.get_from_space(space_filename, local_filepath)
-            print(f"Parking into {local_filepath}")
-        except Exception as e:
-            print(f"having trouble pulling {space_filename}")
-            print(e)
-
     
 
 # Function to perform statistical analysis of counts
@@ -81,7 +62,6 @@ def main():
     metadata_dir_list = []
     if args.metadata_dir == "all":
         metadata_dir_list = kuasimi_helper.get_all_repo_strings()
-        metadata_dir_list = [f"{constants.REPOS_INFO_METADATA_PATH}{repo_string}" for repo_string in metadata_dir_list]
     else:
         metadata_dir_list.append(args.metadata_dir)
 
@@ -89,9 +69,7 @@ def main():
     space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
     
     for metadata_dir in metadata_dir_list:
-        get_recent_metadata_files(space_launch_pad, metadata_dir)
-
-        print(f"Getting metadata on {metadata_dir}")
+        kuasimi_helper.get_metadata_files(space_launch_pad, metadata_dir)
 
         stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
         stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
