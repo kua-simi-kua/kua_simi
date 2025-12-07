@@ -120,5 +120,9 @@
     "https://github.com/Adaptix-Framework/AdaptixC2",
     "https://github.com/trufflesecurity/trufflehog",
     "https://github.com/myzxcg/RealBlindingEDR",
-    "https://github.com/DEF-CON-Group-420/F4keH0und"
+    "https://github.com/DEF-CON-Group-420/F4keH0und",
+    "https://github.com/assetnote/react2shell-scanner",
+    "https://github.com/msanft/CVE-2025-55182",
+    "https://github.com/dwisiswant0/CVE-2025-55182",
+    "https://github.com/lachlan2k/React2Shell-CVE-2025-55182-original-poc"
 ]
