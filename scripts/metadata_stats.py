@@ -69,14 +69,10 @@ def main():
     space_launch_pad = SpaceLaunchPad.SpaceLaunchPad(do_token_list[0], do_token_list[1])
     
     for metadata_dir in metadata_dir_list:
-        kuasimi_helper.get_metadata_files(space_launch_pad, metadata_dir)
+        kuasimi_helper.get_metadata_files(space_launch_pad, metadata_dir, 35)
 
-        stats_filename = metadata_dir + constants.STATS_SUFFIX + constants.JSON_SUFFIX
-        stats_full_path = constants.REPOS_INFO_STATS_PATH + stats_filename
-        space_stats_filename = stats_full_path[3:]
-
+        stats_full_path, space_stats_filename = kuasimi_helper.get_stats_files(space_launch_pad, metadata_dir)
         print(f"Getting stats into {stats_full_path} and reading it")
-        space_launch_pad.get_from_space(space_stats_filename, stats_full_path)
         stats_dict = json_helper.read_json(stats_full_path)
 
         if not stats_dict or not len(stats_dict):

@@ -35,10 +35,8 @@ def main():
     for stats_file in stats_file_list:
         print(f"Getting stats_stats on {stats_file}")
 
-        stats_file_path = constants.REPOS_INFO_STATS_PATH + stats_file + constants.STATS_SUFFIX + constants.JSON_SUFFIX
-        space_stats_filename = stats_file_path[3:]
+        stats_file_path, _ = kuasimi_helper.get_stats_files(space_launch_pad, stats_file)
         print(f"Getting stats into {stats_file_path} and reading it")
-        space_launch_pad.get_from_space(space_stats_filename, stats_file_path)
 
         stats_dict = json_helper.read_json(stats_file_path)
         cd_over_day_dict = stats_dict.get(constants.CD)
@@ -46,12 +44,17 @@ def main():
         cd_over_week_dict = stats_dict.get(constants.TSW)
         tsw_cd, tsw_tsw = stats_stats_log(cd_over_week_dict)
 
-        stats_stats_filename = stats_file + constants.STATS_SUFFIX + constants.STATS_SUFFIX + '.json'
-        stats_stats_full_path = constants.REPOS_INFO_STATS_STATS_PATH + stats_stats_filename
-        space_stats_stats_filename = stats_stats_full_path[3:]
+        stats_stats_full_path, space_stats_stats_filename = kuasimi_helper.get_stats_stats_files(space_launch_pad, stats_file)
         print(f"Getting stats_stats into {stats_stats_full_path} and reading it")
-        space_launch_pad.get_from_space(space_stats_stats_filename, stats_stats_full_path)
         stats_stats_dict = json_helper.read_json(stats_stats_full_path)
+
+        if not stats_stats_dict or not len(stats_stats_dict):
+            stats_stats_dict = {
+                constants.CD_CD: {},
+                constants.CD_TSW: {},
+                constants.TSW_CD: {},
+                constants.TSW_TSW: {}
+            }
 
         stats_stats_dict[constants.CD_CD].update(cd_cd)
         stats_stats_dict[constants.CD_TSW].update(cd_tsw)
